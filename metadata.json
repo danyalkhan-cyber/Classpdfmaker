@@ -1,0 +1,6 @@
+{
+  "name": "ClassPDF Maker",
+  "description": "Fast, privacy-friendly image and photo to PDF converter for university students and study groups.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
