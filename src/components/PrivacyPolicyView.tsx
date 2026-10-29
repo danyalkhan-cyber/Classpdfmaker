@@ -65,16 +65,16 @@ export const PrivacyPolicyView: React.FC = () => {
         {/* Section 2 */}
         <section className="space-y-2">
           <h2 className="text-base font-bold text-slate-900 dark:text-white">
-            2. How Image Processing Works
+            2. How Document Processing Works (Image to PDF, PDF to Word, Word to PDF, Merge &amp; Compress PDF)
           </h2>
           <p>
-            When you select or drop images (such as notebook pictures, assignment pages, lecture slides, or study sheets) into ClassPDF Maker:
+            When you select or drop images, Word documents, or PDF files (such as notebook pictures, assignment pages, lecture slides, study sheets, Word files, or documents to merge and compress) into ClassPDF Maker:
           </p>
           <ul className="list-disc pl-5 space-y-1.5 text-slate-600 dark:text-slate-400">
-            <li><strong>Local Ingestion:</strong> Files are read into your device's browser memory via the standard HTML5 File API.</li>
-            <li><strong>Local Transformations:</strong> Any page rotations, crops, brightness adjustments, or contrast filters are executed directly using your computer or mobile device's CPU and graphics hardware.</li>
-            <li><strong>Client-Side Blob Compilation:</strong> The finished PDF document is compiled directly in memory as a binary Blob and handed to your browser's native download manager.</li>
-            <li><strong>No Remote File Transmission:</strong> At no point during the image-to-PDF conversion workflow are your images, document filenames, or assignment texts transmitted over the internet to our servers or third-party storage buckets.</li>
+            <li><strong>Local Ingestion:</strong> Files are read into your device's browser memory via the standard HTML5 File API and client-side web technologies.</li>
+            <li><strong>Local Transformations, Merging &amp; Compression:</strong> Page rotations, crops, brightness adjustments, PDF page merging, image downsampling, stream compaction, and DOCX conversion are executed directly using your computer or mobile device's CPU and memory.</li>
+            <li><strong>Client-Side Blob Compilation:</strong> The finished PDF or Word document is compiled directly in browser memory as a binary Blob and handed to your browser's native download manager.</li>
+            <li><strong>No Remote File Transmission:</strong> At no point during conversion, merging, or compression are your files, document filenames, or assignment texts transmitted over the internet to remote servers or third-party cloud storage buckets.</li>
           </ul>
         </section>
 

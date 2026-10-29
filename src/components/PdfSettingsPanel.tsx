@@ -294,52 +294,19 @@ export const PdfSettingsPanel: React.FC<PdfSettingsPanelProps> = ({
         </div>
       </div>
 
-      {/* Academic Features (Page numbering & Student Header) */}
-      <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
-        <div className="flex flex-wrap items-center gap-6">
-          <label className="flex items-center gap-2 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={settings.addPageNumbers}
-              onChange={(e) => updateSetting('addPageNumbers', e.target.checked)}
-              className="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
-            />
-            <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
-              Add "Page X of Y" Footer
-            </span>
-          </label>
-
-          <label className="flex items-center gap-2 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={settings.addHeader}
-              onChange={(e) => updateSetting('addHeader', e.target.checked)}
-              className="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
-            />
-            <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
-              Include University Assignment Header
-            </span>
-          </label>
-        </div>
-
-        {settings.addHeader && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <input
-              type="text"
-              value={settings.studentName}
-              onChange={(e) => updateSetting('studentName', e.target.value)}
-              placeholder="Student Name (e.g. Danyal Khan)"
-              className="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-            <input
-              type="text"
-              value={settings.courseTitle}
-              onChange={(e) => updateSetting('courseTitle', e.target.value)}
-              placeholder="Course / Assignment (e.g. CS 351 Homework 3)"
-              className="px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </div>
-        )}
+      {/* Page Numbering Option */}
+      <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+        <label className="flex items-center gap-2 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={settings.addPageNumbers}
+            onChange={(e) => updateSetting('addPageNumbers', e.target.checked)}
+            className="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+          />
+          <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
+            Add "Page X of Y" Footer
+          </span>
+        </label>
       </div>
 
       {/* Summary Footer bar */}

@@ -57,7 +57,7 @@ export const TermsView: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
             <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
               <span className="font-semibold text-slate-900 dark:text-white block mb-1">Supported File Formats</span>
-              <p className="text-xs text-slate-500">Standard web image formats including JPG/JPEG, PNG, WEBP, and HEIC (converted in browser).</p>
+              <p className="text-xs text-slate-500">Standard web image formats (JPG/JPEG, PNG, WEBP, HEIC) for Image-to-PDF; unlocked PDF files (up to 50MB per file) for PDF-to-Word and PDF Merging.</p>
             </div>
             <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
               <span className="font-semibold text-slate-900 dark:text-white block mb-1">Recommended Batch Size</span>

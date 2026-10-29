@@ -1,26 +1,19 @@
-import { ShieldCheck, Sun, Moon, Sparkles, Film } from 'lucide-react';
-import { StudentAuthSession } from '../types';
+import { ShieldCheck, Sun, Moon, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
-  currentTab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word';
-  onSelectTab: (tab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word') => void;
-  authSession: StudentAuthSession;
-  onOpenAuthModal: () => void;
+  currentTab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf';
+  onSelectTab: (tab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf') => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
   imagesCount: number;
-  onOpenVideoStudio?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentTab,
   onSelectTab,
-  authSession,
-  onOpenAuthModal,
   isDarkMode,
   onToggleDarkMode,
   imagesCount,
-  onOpenVideoStudio,
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
@@ -81,7 +74,40 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <span>PDF to Word</span>
-            <span className="px-1.5 py-0.2 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 rounded">
+          </button>
+          <button
+            onClick={() => onSelectTab('word-to-pdf')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+              currentTab === 'word-to-pdf'
+                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
+                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+            }`}
+          >
+            <span>Word to PDF</span>
+            <span className="px-1.5 py-0.2 text-[10px] font-bold uppercase tracking-wider bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 rounded">
+              New
+            </span>
+          </button>
+          <button
+            onClick={() => onSelectTab('merge-pdf')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+              currentTab === 'merge-pdf'
+                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
+                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+            }`}
+          >
+            <span>Merge PDF</span>
+          </button>
+          <button
+            onClick={() => onSelectTab('compress-pdf')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+              currentTab === 'compress-pdf'
+                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
+                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+            }`}
+          >
+            <span>Compress PDF</span>
+            <span className="px-1.5 py-0.2 text-[10px] font-bold uppercase tracking-wider bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 rounded">
               New
             </span>
           </button>
@@ -125,18 +151,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>Public & Free</span>
           </div>
 
-          {/* Optional Coversheet Header Button */}
-          <button
-            onClick={onOpenAuthModal}
-            title={authSession.studentName ? `Header Stamp: ${authSession.studentName}` : 'Configure optional student name / course header for PDF'}
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors whitespace-nowrap"
-          >
-            <span className="hidden sm:inline">
-              {authSession.studentName ? `Header: ${authSession.studentName.split(' ')[0]}` : 'Optional Header'}
-            </span>
-            <span className="sm:hidden">Header</span>
-          </button>
-
           {/* Dark Mode Toggle */}
           <button
             type="button"
@@ -147,18 +161,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
           </button>
-
-          {/* AI Video Studio Button */}
-          {onOpenVideoStudio && (
-            <button
-              onClick={onOpenVideoStudio}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors whitespace-nowrap"
-              title="Animate images into video using Gemini Omni Flash"
-            >
-              <Film className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-              <span className="hidden lg:inline">Video Studio</span>
-            </button>
-          )}
 
           {/* Quick Action Button */}
           {currentTab !== 'convert' ? (
@@ -203,6 +205,30 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           PDF to Word
+        </button>
+        <button
+          onClick={() => onSelectTab('word-to-pdf')}
+          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
+            currentTab === 'word-to-pdf' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          Word to PDF
+        </button>
+        <button
+          onClick={() => onSelectTab('merge-pdf')}
+          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
+            currentTab === 'merge-pdf' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          Merge PDF
+        </button>
+        <button
+          onClick={() => onSelectTab('compress-pdf')}
+          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
+            currentTab === 'compress-pdf' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          }`}
+        >
+          Compress PDF
         </button>
         <button
           onClick={() => onSelectTab('files')}

@@ -14,13 +14,15 @@ import {
 import { UploadDropzone } from './UploadDropzone';
 import { AdPlacement } from './AdPlacement';
 import { PdfToWordSection } from './PdfToWordSection';
+import { WordToPdfSection } from './WordToPdfSection';
+import { MergePdfSection } from './MergePdfSection';
+import { CompressPdfSection } from './CompressPdfSection';
 import { UploadedImage } from '../types';
 
 interface HomeHeroProps {
   onImagesAdded: (newImages: UploadedImage[]) => void;
   onGoToConvert: () => void;
   imagesCount: number;
-  onOpenAuthModal: () => void;
   showAds?: boolean;
 }
 
@@ -28,7 +30,6 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
   onImagesAdded,
   onGoToConvert,
   imagesCount,
-  onOpenAuthModal,
   showAds = true,
 }) => {
   return (
@@ -110,6 +111,15 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
       {/* New Feature Section: PDF to Word Converter */}
       <PdfToWordSection id="pdf-to-word" />
 
+      {/* New Feature Section: Word to PDF Converter */}
+      <WordToPdfSection id="word-to-pdf" />
+
+      {/* New Feature Section: Merge PDF Tool */}
+      <MergePdfSection id="merge-pdf" />
+
+      {/* New Feature Section: Compress PDF Tool */}
+      <CompressPdfSection id="compress-pdf" />
+
       {/* 4 Feature Highlights */}
       <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-2">
@@ -153,10 +163,10 @@ export const HomeHero: React.FC<HomeHeroProps> = ({
             <Shield className="w-4 h-4" />
           </div>
           <h2 className="text-xs font-bold text-slate-900 dark:text-white">
-            Personal & Classmate Modes
+            100% Client-Side Privacy
           </h2>
           <p className="text-[11px] text-slate-500 leading-normal">
-            Keep uploads strictly in temporary memory or attach student assignment identifiers for course submission.
+            Your files and images stay in your browser. Nothing is ever uploaded or stored on external servers.
           </p>
         </div>
       </div>

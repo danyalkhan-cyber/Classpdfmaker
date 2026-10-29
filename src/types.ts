@@ -21,15 +21,6 @@ export interface UploadedImage {
   preset?: string;
 }
 
-export interface GeneratedVideoItem {
-  id: string;
-  prompt: string;
-  videoUrl: string;
-  aspectRatio: '16:9' | '9:16';
-  createdAt: string;
-  sourceImageName?: string;
-}
-
 export interface PdfSettings {
   pageSize: PageSize;
   orientation: PageOrientation;
@@ -40,9 +31,9 @@ export interface PdfSettings {
   filename: string;
   backgroundColor: string;
   addPageNumbers: boolean;
-  addHeader: boolean;
-  studentName: string;
-  courseTitle: string;
+  addHeader?: boolean;
+  studentName?: string;
+  courseTitle?: string;
 }
 
 export interface ConversionHistoryItem {
@@ -56,13 +47,4 @@ export interface ConversionHistoryItem {
   imagesCount: number;
   previewDataUrl?: string;
   blobUrl?: string;
-}
-
-export interface StudentAuthSession {
-  isAuthorized: boolean;
-  studentName: string;
-  studentId: string;
-  classCode: string;
-  accessMode: 'private' | 'shared';
-  authorizedAt?: string;
 }

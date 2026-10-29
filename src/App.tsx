@@ -15,14 +15,14 @@ import { TermsView } from './components/TermsView';
 import { ConversionModal } from './components/ConversionModal';
 import { ImagePreviewModal } from './components/ImagePreviewModal';
 import { ConfirmModal } from './components/ConfirmModal';
-import { AuthModal } from './components/AuthModal';
-import { VideoStudioModal } from './components/VideoStudioModal';
 import { PdfToWordSection } from './components/PdfToWordSection';
+import { WordToPdfSection } from './components/WordToPdfSection';
+import { MergePdfSection } from './components/MergePdfSection';
+import { CompressPdfSection } from './components/CompressPdfSection';
 import {
   UploadedImage,
   PdfSettings,
-  ConversionHistoryItem,
-  StudentAuthSession
+  ConversionHistoryItem
 } from './types';
 import { generatePdfFromImages } from './utils/pdfGenerator';
 
@@ -33,16 +33,13 @@ const DEFAULT_SETTINGS: PdfSettings = {
   fitting: 'contain',
   quality: 'standard',
   imagesPerPage: 1,
-  filename: 'Computer_Network_Assignment',
+  filename: 'ClassPDF_Document',
   backgroundColor: '#FFFFFF',
   addPageNumbers: true,
-  addHeader: false,
-  studentName: '',
-  courseTitle: '',
 };
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word'>('home');
+  const [currentTab, setCurrentTab] = useState<'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf'>('home');
   const [images, setImages] = useState<UploadedImage[]>([]);
   const [settings, setSettings] = useState<PdfSettings>(DEFAULT_SETTINGS);
   const [showAds, setShowAds] = useState<boolean>(() => {
@@ -67,23 +64,6 @@ export default function App() {
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Access / Authorization session
-  const [authSession, setAuthSession] = useState<StudentAuthSession>(() => {
-    try {
-      const stored = localStorage.getItem('classpdf_auth_session');
-      if (stored) return JSON.parse(stored);
-    } catch {
-      // Fallback
-    }
-    return {
-      isAuthorized: false,
-      studentName: '',
-      studentId: '',
-      classCode: '',
-      accessMode: 'private',
-    };
-  });
-
   // Conversion History (persisted non-sensitive metadata)
   const [history, setHistory] = useState<ConversionHistoryItem[]>(() => {
     try {
@@ -96,10 +76,7 @@ export default function App() {
   });
 
   // Modals state
-  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState<UploadedImage | null>(null);
-  const [videoStudioOpen, setVideoStudioOpen] = useState(false);
-  const [videoStudioImage, setVideoStudioImage] = useState<UploadedImage | null>(null);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -157,14 +134,7 @@ export default function App() {
     }
   }, [isDarkMode]);
 
-  // Persist auth session changes
-  useEffect(() => {
-    try {
-      localStorage.setItem('classpdf_auth_session', JSON.stringify(authSession));
-    } catch {
-      // Ignore
-    }
-  }, [authSession]);
+
 
   // Persist history changes
   useEffect(() => {
@@ -371,12 +341,9 @@ export default function App() {
       <Navbar
         currentTab={currentTab}
         onSelectTab={setCurrentTab}
-        authSession={authSession}
-        onOpenAuthModal={() => setAuthModalOpen(true)}
         isDarkMode={isDarkMode}
         onToggleDarkMode={() => setIsDarkMode((d) => !d)}
         imagesCount={images.length}
-        onOpenVideoStudio={() => setVideoStudioOpen(true)}
       />
 
       {/* Main Content Pages */}
@@ -386,7 +353,6 @@ export default function App() {
             onImagesAdded={handleImagesAdded}
             onGoToConvert={() => setCurrentTab('convert')}
             imagesCount={images.length}
-            onOpenAuthModal={() => setAuthModalOpen(true)}
             showAds={showAds}
           />
         )}
@@ -450,15 +416,181 @@ export default function App() {
               >
                 ← Back to Home
               </button>
-              <button
-                type="button"
-                onClick={() => setCurrentTab('convert')}
-                className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
-              >
-                Switch to Image to PDF →
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('convert')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Switch to Image to PDF →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('merge-pdf')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Merge PDF →
+                </button>
+              </div>
             </div>
             <PdfToWordSection id="pdf-to-word-page" />
+          </div>
+        )}
+
+        {currentTab === 'word-to-pdf' && (
+          <div className="py-6 space-y-6">
+            <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setCurrentTab('home')}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+              >
+                ← Back to Home
+              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('convert')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Image to PDF →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('pdf-to-word')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  PDF to Word →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('merge-pdf')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Merge PDF →
+                </button>
+              </div>
+            </div>
+            <WordToPdfSection
+              id="word-to-pdf-page"
+              onConversionSuccess={(res) => {
+                // Record in recent documents history
+                setHistory((prev) => [
+                  {
+                    id: `word2pdf-${Date.now()}`,
+                    filename: res.filename,
+                    pageCount: res.pageCount,
+                    fileSizeBytes: res.fileSizeBytes,
+                    createdAt: new Date().toISOString(),
+                    pageSize: 'a4',
+                    orientation: 'auto',
+                    imagesCount: 1,
+                    blobUrl: res.blobUrl,
+                  },
+                  ...prev,
+                ]);
+              }}
+            />
+          </div>
+        )}
+
+        {currentTab === 'merge-pdf' && (
+          <div className="py-6 space-y-6">
+            <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setCurrentTab('home')}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+              >
+                ← Back to Home
+              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('convert')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Image to PDF →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('pdf-to-word')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  PDF to Word →
+                </button>
+              </div>
+            </div>
+            <MergePdfSection
+              id="merge-pdf-page"
+              onMergeSuccess={(res) => {
+                // Record in recent documents history
+                setHistory((prev) => [
+                  {
+                    id: `merge-${Date.now()}`,
+                    filename: res.filename,
+                    pageCount: res.totalPageCount,
+                    fileSizeBytes: res.fileSizeBytes,
+                    createdAt: new Date().toISOString(),
+                    pageSize: 'custom',
+                    orientation: 'auto',
+                    imagesCount: res.fileCount,
+                    blobUrl: res.blobUrl,
+                  },
+                  ...prev,
+                ]);
+              }}
+            />
+          </div>
+        )}
+
+        {currentTab === 'compress-pdf' && (
+          <div className="py-6 space-y-6">
+            <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setCurrentTab('home')}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+              >
+                ← Back to Home
+              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('convert')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Image to PDF →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentTab('merge-pdf')}
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                >
+                  Merge PDF →
+                </button>
+              </div>
+            </div>
+            <CompressPdfSection
+              id="compress-pdf-page"
+              onCompressSuccess={(res) => {
+                // Record in recent documents history
+                setHistory((prev) => [
+                  {
+                    id: `compress-${Date.now()}`,
+                    filename: res.filename,
+                    pageCount: res.pageCount,
+                    fileSizeBytes: res.compressedSizeBytes,
+                    createdAt: new Date().toISOString(),
+                    pageSize: 'a4',
+                    orientation: 'auto',
+                    imagesCount: 1,
+                    blobUrl: res.blobUrl,
+                  },
+                  ...prev,
+                ]);
+              }}
+            />
           </div>
         )}
       </main>
@@ -518,7 +650,34 @@ export default function App() {
                     className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <span>PDF to Word Converter</span>
-                    <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 font-bold px-1 rounded">
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCurrentTab('word-to-pdf')}
+                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>Word to PDF Converter</span>
+                    <span className="text-[10px] bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-400 font-bold px-1 rounded">
+                      New
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCurrentTab('merge-pdf')}
+                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>Merge PDF Tool</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCurrentTab('compress-pdf')}
+                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>Compress PDF Tool</span>
+                    <span className="text-[10px] bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-400 font-bold px-1 rounded">
                       New
                     </span>
                   </button>
@@ -641,18 +800,6 @@ export default function App() {
         onClose={() => setPreviewImage(null)}
         onRotate={handleRotateImage}
         onSaveImage={handleSaveEditedImage}
-        onAnimateToVideo={(img) => {
-          setVideoStudioImage(img);
-          setVideoStudioOpen(true);
-        }}
-      />
-
-      {/* Gemini Omni Flash Video Studio Modal */}
-      <VideoStudioModal
-        isOpen={videoStudioOpen}
-        onClose={() => setVideoStudioOpen(false)}
-        initialImage={videoStudioImage}
-        availableImages={images}
       />
 
       {/* Accessible Confirmation Modal */}
@@ -662,24 +809,6 @@ export default function App() {
         message={confirmModal.message}
         onConfirm={confirmModal.onConfirm}
         onCancel={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-      />
-
-      {/* Student Privacy & Classmate Access Modal */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        session={authSession}
-        onSaveSession={(updated) => {
-          setAuthSession(updated);
-          // If student name is provided, auto-populate in PDF settings
-          if (updated.studentName) {
-            setSettings((s) => ({
-              ...s,
-              studentName: updated.studentName,
-              courseTitle: updated.classCode || s.courseTitle,
-            }));
-          }
-        }}
       />
     </div>
   );

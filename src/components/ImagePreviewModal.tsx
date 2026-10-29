@@ -11,7 +11,6 @@ import {
   Undo2,
   Sun,
   Contrast as ContrastIcon,
-  Video,
   Layers,
   ArrowRight,
   Maximize2
@@ -24,7 +23,6 @@ interface ImagePreviewModalProps {
   onClose: () => void;
   onRotate?: (id: string) => void;
   onSaveImage?: (updated: UploadedImage) => void;
-  onAnimateToVideo?: (image: UploadedImage) => void;
 }
 
 export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
@@ -32,7 +30,6 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   onClose,
   onRotate,
   onSaveImage,
-  onAnimateToVideo,
 }) => {
   const [activeTab, setActiveTab] = useState<'view' | 'crop' | 'filter'>('view');
   const [zoom, setZoom] = useState(1);
@@ -621,28 +618,6 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     <p>Rotation: {image.rotation}°</p>
                   </div>
                 </div>
-
-                {onAnimateToVideo && (
-                  <div className="p-3.5 rounded-xl bg-sky-50/70 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-900/60 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Video className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                        AI Video Animation
-                      </h4>
-                    </div>
-                    <p className="text-[11px] text-slate-500 leading-normal">
-                      Animate this handwritten note or diagram into a video presentation using Gemini Omni Flash.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => onAnimateToVideo(image)}
-                      className="w-full py-2 px-3 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-500 rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5"
-                    >
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>Animate Page to Video</span>
-                    </button>
-                  </div>
-                )}
               </div>
             )}
           </div>

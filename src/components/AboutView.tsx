@@ -17,7 +17,7 @@ import {
 
 interface AboutViewProps {
   onGoToConvert: () => void;
-  onSelectTab?: (tab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word') => void;
+  onSelectTab?: (tab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf') => void;
 }
 
 export const AboutView: React.FC<AboutViewProps> = ({ onGoToConvert, onSelectTab }) => {
