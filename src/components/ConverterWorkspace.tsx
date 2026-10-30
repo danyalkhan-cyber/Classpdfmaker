@@ -72,12 +72,12 @@ export const ConverterWorkspace: React.FC<ConverterWorkspaceProps> = ({
       <AdPlacement slotType="leaderboard" slotId="workspace-top-leaderboard" showAds={showAds} />
 
       {/* Workspace Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-[#232B45]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-[#F8FAFC]">
             Image to PDF Converter
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A7B0C5] mt-0.5">
             Organize handwritten notes, configure page layout, and compile your document
           </p>
         </div>
@@ -88,9 +88,9 @@ export const ConverterWorkspace: React.FC<ConverterWorkspaceProps> = ({
               type="button"
               onClick={handleConvertClick}
               disabled={isConverting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 text-xs sm:text-sm font-bold text-white bg-sky-600 hover:bg-sky-500 active:bg-sky-700 rounded-xl shadow-md shadow-sky-600/30 transition-all hover:scale-[1.02] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-6 py-2.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:scale-[0.98] rounded-xl shadow-md shadow-indigo-500/20 transition-all disabled:opacity-50 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-cyan-300" />
               <span>{isConverting ? 'Processing PDF...' : `Convert ${images.length} Images to PDF`}</span>
             </button>
           </div>
@@ -98,7 +98,7 @@ export const ConverterWorkspace: React.FC<ConverterWorkspaceProps> = ({
       </div>
 
       {validationError && (
-        <div className="p-3.5 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 text-xs rounded-xl flex items-center gap-2.5">
+        <div className="p-3.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-200 text-xs rounded-xl flex items-center gap-2.5">
           <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
           <span>{validationError}</span>
         </div>
@@ -154,9 +154,9 @@ export const ConverterWorkspace: React.FC<ConverterWorkspaceProps> = ({
               type="button"
               onClick={handleConvertClick}
               disabled={isConverting}
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 text-sm font-bold text-white bg-sky-600 hover:bg-sky-500 active:bg-sky-700 rounded-2xl shadow-lg shadow-sky-600/30 transition-all hover:scale-[1.01] disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:scale-[0.98] rounded-2xl shadow-lg shadow-indigo-500/25 transition-all disabled:opacity-50 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-cyan-300" />
               <span>Convert to PDF</span>
               <ArrowRight className="w-4 h-4" />
             </button>

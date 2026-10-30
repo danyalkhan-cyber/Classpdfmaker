@@ -51,7 +51,7 @@ export default function App() {
     }
   });
 
-  // Dark mode
+  // Dark mode (Premium SaaS dark theme default)
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     try {
       const stored = localStorage.getItem('classpdf_theme');
@@ -61,7 +61,7 @@ export default function App() {
     } catch {
       // Ignore
     }
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return true; // Default to premium SaaS dark theme
   });
 
   // Conversion History (persisted non-sensitive metadata)
@@ -412,7 +412,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setCurrentTab('home')}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[#A7B0C5] hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
               >
                 ← Back to Home
               </button>
@@ -420,14 +420,14 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setCurrentTab('convert')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Switch to Image to PDF →
                 </button>
                 <button
                   type="button"
                   onClick={() => setCurrentTab('merge-pdf')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Merge PDF →
                 </button>
@@ -443,7 +443,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setCurrentTab('home')}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[#A7B0C5] hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
               >
                 ← Back to Home
               </button>
@@ -451,21 +451,21 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setCurrentTab('convert')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Image to PDF →
                 </button>
                 <button
                   type="button"
                   onClick={() => setCurrentTab('pdf-to-word')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   PDF to Word →
                 </button>
                 <button
                   type="button"
                   onClick={() => setCurrentTab('merge-pdf')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Merge PDF →
                 </button>
@@ -500,7 +500,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setCurrentTab('home')}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[#A7B0C5] hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
               >
                 ← Back to Home
               </button>
@@ -508,14 +508,14 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setCurrentTab('convert')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Image to PDF →
                 </button>
                 <button
                   type="button"
                   onClick={() => setCurrentTab('pdf-to-word')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   PDF to Word →
                 </button>
@@ -550,7 +550,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setCurrentTab('home')}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-[#A7B0C5] hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
               >
                 ← Back to Home
               </button>
@@ -558,14 +558,14 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setCurrentTab('convert')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Image to PDF →
                 </button>
                 <button
                   type="button"
                   onClick={() => setCurrentTab('merge-pdf')}
-                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-500 transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:text-indigo-500 transition-colors cursor-pointer"
                 >
                   Merge PDF →
                 </button>
@@ -596,42 +596,42 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 py-10 text-xs text-slate-500 transition-colors">
+      <footer className="border-t border-slate-200/80 dark:border-[#232B45] bg-white dark:bg-[#0B1020] py-12 text-xs text-slate-500 dark:text-[#A7B0C5] transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             {/* Brand column */}
             <div className="md:col-span-4 space-y-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-xs p-1 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-white dark:bg-[#171D32] border border-slate-200/90 dark:border-[#232B45] shadow-xs p-1 flex items-center justify-center shrink-0">
                   <img
                     src="/logo.png"
                     alt="ClassPDF Maker"
-                    className="w-full h-full object-contain rounded"
+                    className="w-full h-full object-contain rounded-lg"
                   />
                 </div>
-                <span className="font-bold text-sm text-slate-900 dark:text-white">
+                <span className="font-bold text-sm text-slate-900 dark:text-[#F8FAFC]">
                   ClassPDF Maker
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm">
-                Fast, 100% private in-browser image and photo to PDF converter for students, educators, and the public. Files are compiled locally without server uploads.
+              <p className="text-xs text-slate-500 dark:text-[#A7B0C5] leading-relaxed max-w-sm">
+                Fast, 100% private in-browser document conversion platform for students, educators, and professionals. All files are processed strictly client-side without remote uploads.
               </p>
               <div className="pt-1 flex items-center gap-2 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Publicly Accessible · Free to Use</span>
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                <span>100% Client-Side Memory · Free to Use</span>
               </div>
             </div>
 
             {/* Quick Links Column */}
             <div className="md:col-span-3 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-[#F8FAFC]">
                 Converter Tools
               </h4>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => setCurrentTab('home')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     Home Overview
                   </button>
@@ -639,7 +639,7 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('convert')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     Image to PDF Converter
                   </button>
@@ -647,7 +647,7 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('pdf-to-word')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <span>PDF to Word Converter</span>
                   </button>
@@ -655,10 +655,10 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('word-to-pdf')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <span>Word to PDF Converter</span>
-                    <span className="text-[10px] bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-400 font-bold px-1 rounded">
+                    <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-bold px-1.5 py-0.2 rounded">
                       New
                     </span>
                   </button>
@@ -666,7 +666,7 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('merge-pdf')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <span>Merge PDF Tool</span>
                   </button>
@@ -674,10 +674,10 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('compress-pdf')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer flex items-center gap-1.5"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <span>Compress PDF Tool</span>
-                    <span className="text-[10px] bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-400 font-bold px-1 rounded">
+                    <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-bold px-1.5 py-0.2 rounded">
                       New
                     </span>
                   </button>
@@ -685,7 +685,7 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('files')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     My Recent Documents
                   </button>
@@ -695,14 +695,14 @@ export default function App() {
 
             {/* Company & Support Column */}
             <div className="md:col-span-2 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                About & Help
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-[#F8FAFC]">
+                About &amp; Help
               </h4>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => setCurrentTab('about')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     About Us
                   </button>
@@ -710,8 +710,8 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('contact')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
-                    >
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
+                  >
                     Contact Us
                   </button>
                 </li>
@@ -720,14 +720,14 @@ export default function App() {
 
             {/* Legal Column */}
             <div className="md:col-span-3 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                Legal & Privacy
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-[#F8FAFC]">
+                Legal &amp; Privacy
               </h4>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => setCurrentTab('privacy')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     Privacy Policy
                   </button>
@@ -735,19 +735,19 @@ export default function App() {
                 <li>
                   <button
                     onClick={() => setCurrentTab('terms')}
-                    className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     Terms of Service
                   </button>
                 </li>
-                <li className="text-[11px] text-slate-400">
-                  Direct Inquiries: <a href="mailto:danyalkhancs56@gmail.com" className="text-sky-600 dark:text-sky-400 hover:underline">danyalkhancs56@gmail.com</a>
+                <li className="text-[11px] text-slate-400 dark:text-[#A7B0C5]">
+                  Direct Inquiries: <a href="mailto:danyalkhancs56@gmail.com" className="text-indigo-600 dark:text-cyan-400 hover:underline">danyalkhancs56@gmail.com</a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
+          <div className="pt-6 border-t border-slate-200/60 dark:border-[#1E2640] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 dark:text-[#A7B0C5]">
             <div>
               © 2026 ClassPDF Maker. Designed for students, researchers, and public use. Client-side privacy guaranteed.
             </div>
@@ -765,19 +765,19 @@ export default function App() {
                     // Ignore
                   }
                 }}
-                className="hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer px-2 py-1 rounded bg-slate-100 dark:bg-slate-800"
+                className="hover:text-slate-600 dark:hover:text-[#F8FAFC] transition-colors cursor-pointer px-3 py-1 rounded-lg bg-slate-100 dark:bg-[#171D32] border border-slate-200/80 dark:border-[#232B45]"
                 title="Toggle Google AdSense reserved placeholder containers"
               >
-                Ad Slots: <span className="font-semibold text-sky-600 dark:text-sky-400">{showAds ? 'Enabled' : 'Disabled'}</span>
+                Ad Slots: <span className="font-semibold text-indigo-600 dark:text-cyan-400">{showAds ? 'Enabled' : 'Disabled'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setIsDarkMode((d) => !d)}
-                className="hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer px-2 py-1 rounded bg-slate-100 dark:bg-slate-800"
+                className="hover:text-slate-600 dark:hover:text-[#F8FAFC] transition-colors cursor-pointer px-3 py-1 rounded-lg bg-slate-100 dark:bg-[#171D32] border border-slate-200/80 dark:border-[#232B45]"
                 title="Toggle Light or Dark Mode"
               >
-                Theme: <span className="font-semibold text-sky-600 dark:text-sky-400">{isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
+                Theme: <span className="font-semibold text-indigo-600 dark:text-cyan-400">{isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
               </button>
             </div>
           </div>

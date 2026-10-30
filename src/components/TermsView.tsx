@@ -5,22 +5,22 @@ export const TermsView: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div className="text-center space-y-3 pb-6 border-b border-slate-200/80 dark:border-slate-800">
-        <div className="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto shadow-xs">
+      <div className="text-center space-y-3 pb-6 border-b border-slate-200/80 dark:border-[#232B45]">
+        <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-cyan-400 border border-indigo-200/50 dark:border-indigo-800/40 flex items-center justify-center mx-auto shadow-xs">
           <Scale className="w-6 h-6" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-[#F8FAFC]">
           Terms of Service
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A7B0C5] max-w-xl mx-auto">
           Last Updated: October 2026 · ClassPDF Maker
         </p>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 space-y-8 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed shadow-xs">
+      <div className="bg-white dark:bg-[#171D32] rounded-3xl border border-slate-200/80 dark:border-[#232B45] p-6 sm:p-8 space-y-8 text-xs sm:text-sm text-slate-700 dark:text-[#A7B0C5] leading-relaxed shadow-xs">
         {/* Section 1 */}
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white">
+          <h2 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">
             1. Acceptance of Terms
           </h2>
           <p>
@@ -30,13 +30,13 @@ export const TermsView: React.FC = () => {
 
         {/* Section 2 */}
         <section className="space-y-3">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white">
+          <h2 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">
             2. Acceptable Use Policy
           </h2>
           <p>
             ClassPDF Maker is designed to assist students, teachers, researchers, and general visitors in assembling homework assignments, handwritten notes, whiteboard photos, receipts, and personal documentation into unified PDF files. You agree to use the service only for lawful purposes:
           </p>
-          <ul className="list-disc pl-5 space-y-1.5 text-slate-600 dark:text-slate-400">
+          <ul className="list-disc pl-5 space-y-1.5 text-slate-600 dark:text-[#A7B0C5]">
             <li>You must not use the tool to convert, assemble, or distribute materials that you do not have the right or authorization to possess.</li>
             <li>You must not use the application to process unlawful, defamatory, harassing, or fraudulent materials.</li>
             <li>You must not attempt to circumvent client-side security boundaries, inject malicious scripts, or reverse engineer restricted hosting infrastructure.</li>
@@ -46,30 +46,30 @@ export const TermsView: React.FC = () => {
         {/* Section 3 - Required: File limitations */}
         <section className="space-y-3">
           <div className="flex items-center gap-2">
-            <Cpu className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-            <h2 className="text-base font-bold text-slate-900 dark:text-white">
-              3. File Limitations & Technical Constraints
+            <Cpu className="w-4 h-4 text-cyan-400" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">
+              3. File Limitations &amp; Technical Constraints
             </h2>
           </div>
           <p>
             Because ClassPDF Maker operates client-side inside your browser rather than relying on server clusters, document processing capacity is governed by your local hardware capabilities:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
-              <span className="font-semibold text-slate-900 dark:text-white block mb-1">Supported File Formats</span>
-              <p className="text-xs text-slate-500">Standard web image formats (JPG/JPEG, PNG, WEBP, HEIC) for Image-to-PDF; unlocked PDF files (up to 50MB per file) for PDF-to-Word and PDF Merging.</p>
+            <div className="p-3.5 bg-slate-50 dark:bg-[#111827] rounded-xl border border-slate-100 dark:border-[#232B45]">
+              <span className="font-semibold text-slate-900 dark:text-[#F8FAFC] block mb-1">Supported File Formats</span>
+              <p className="text-xs text-slate-500 dark:text-[#A7B0C5]">Standard web image formats (JPG/JPEG, PNG, WEBP, HEIC) for Image-to-PDF; unlocked PDF files (up to 50MB per file) for PDF-to-Word and PDF Merging.</p>
             </div>
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
-              <span className="font-semibold text-slate-900 dark:text-white block mb-1">Recommended Batch Size</span>
-              <p className="text-xs text-slate-500">We recommend batches of up to 50–100 photos or approximately 50MB–100MB per document for smooth compilation on most devices.</p>
+            <div className="p-3.5 bg-slate-50 dark:bg-[#111827] rounded-xl border border-slate-100 dark:border-[#232B45]">
+              <span className="font-semibold text-slate-900 dark:text-[#F8FAFC] block mb-1">Recommended Batch Size</span>
+              <p className="text-xs text-slate-500 dark:text-[#A7B0C5]">We recommend batches of up to 50–100 photos or approximately 50MB–100MB per document for smooth compilation on most devices.</p>
             </div>
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
-              <span className="font-semibold text-slate-900 dark:text-white block mb-1">Browser Memory (RAM)</span>
-              <p className="text-xs text-slate-500">Extremely high-resolution photo batches may consume significant device RAM. If a tab reloads, reduce image count or select Standard Quality.</p>
+            <div className="p-3.5 bg-slate-50 dark:bg-[#111827] rounded-xl border border-slate-100 dark:border-[#232B45]">
+              <span className="font-semibold text-slate-900 dark:text-[#F8FAFC] block mb-1">Browser Memory (RAM)</span>
+              <p className="text-xs text-slate-500 dark:text-[#A7B0C5]">Extremely high-resolution photo batches may consume significant device RAM. If a tab reloads, reduce image count or select Standard Quality.</p>
             </div>
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
-              <span className="font-semibold text-slate-900 dark:text-white block mb-1">Canvas Resolution Limits</span>
-              <p className="text-xs text-slate-500">Mobile browser engines impose maximum HTML5 canvas dimensions (typically 4096×4096 px). Oversized photos are automatically scaled to fit.</p>
+            <div className="p-3.5 bg-slate-50 dark:bg-[#111827] rounded-xl border border-slate-100 dark:border-[#232B45]">
+              <span className="font-semibold text-slate-900 dark:text-[#F8FAFC] block mb-1">Canvas Resolution Limits</span>
+              <p className="text-xs text-slate-500 dark:text-[#A7B0C5]">Mobile browser engines impose maximum HTML5 canvas dimensions (typically 4096×4096 px). Oversized photos are automatically scaled to fit.</p>
             </div>
           </div>
         </section>

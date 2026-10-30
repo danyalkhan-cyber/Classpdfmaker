@@ -5,57 +5,57 @@ export const PrivacyPolicyView: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div className="text-center space-y-3 pb-6 border-b border-slate-200/80 dark:border-slate-800">
-        <div className="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto shadow-xs">
+      <div className="text-center space-y-3 pb-6 border-b border-slate-200/80 dark:border-[#232B45]">
+        <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-cyan-400 border border-indigo-200/50 dark:border-indigo-800/40 flex items-center justify-center mx-auto shadow-xs">
           <ShieldCheck className="w-6 h-6" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-[#F8FAFC]">
           Privacy Policy
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A7B0C5] max-w-xl mx-auto">
           Effective Date: October 2026 · ClassPDF Maker
         </p>
       </div>
 
       {/* Highlights Banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-1.5 shadow-2xs">
-          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 font-bold text-xs">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#171D32] border border-slate-200/80 dark:border-[#232B45] space-y-1.5 shadow-2xs">
+          <div className="flex items-center gap-2 text-indigo-600 dark:text-cyan-400 font-bold text-xs">
             <ServerOff className="w-4 h-4 shrink-0" />
             <span>100% Local In-Browser Processing</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-[#A7B0C5] leading-relaxed">
             Images and photos are converted to PDF locally in your web browser. No photos or document contents are uploaded to remote servers.
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-1.5 shadow-2xs">
-          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 font-bold text-xs">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#171D32] border border-slate-200/80 dark:border-[#232B45] space-y-1.5 shadow-2xs">
+          <div className="flex items-center gap-2 text-indigo-600 dark:text-cyan-400 font-bold text-xs">
             <EyeOff className="w-4 h-4 shrink-0" />
             <span>No Account Required</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-[#A7B0C5] leading-relaxed">
             Freely accessible to all visitors without user registration, login credentials, passwords, or personal identity tracking.
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-1.5 shadow-2xs">
-          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 font-bold text-xs">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#171D32] border border-slate-200/80 dark:border-[#232B45] space-y-1.5 shadow-2xs">
+          <div className="flex items-center gap-2 text-indigo-600 dark:text-cyan-400 font-bold text-xs">
             <Lock className="w-4 h-4 shrink-0" />
             <span>Volatile Memory Isolation</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-[#A7B0C5] leading-relaxed">
             Image files exist strictly in your browser's active memory buffer and are automatically purged when you refresh or close the tab.
           </p>
         </div>
       </div>
 
       {/* Main Policy Content */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 space-y-8 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed shadow-xs">
+      <div className="bg-white dark:bg-[#171D32] rounded-3xl border border-slate-200/80 dark:border-[#232B45] p-6 sm:p-8 space-y-8 text-xs sm:text-sm text-slate-700 dark:text-[#A7B0C5] leading-relaxed shadow-xs">
         {/* Section 1 */}
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white">
-            1. Overview & Commitment to Privacy
+          <h2 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">
+            1. Overview &amp; Commitment to Privacy
           </h2>
           <p>
             ClassPDF Maker ("we", "our", or "the application") is committed to protecting the privacy of students, educators, and the public. Unlike conventional cloud converters that upload your documents to third-party file servers, ClassPDF Maker executes image processing and PDF compilation <strong>entirely on the client side</strong> within your web browser using HTML5 Canvas, the JavaScript File API, and client-side PDF libraries (jsPDF).

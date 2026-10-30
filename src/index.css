@@ -8,12 +8,16 @@
     --font-mono: 'JetBrains Mono', monospace;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: var(--font-sans);
   }
 }
 
-/* Custom subtle scrollbars */
+/* Custom subtle SaaS scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -24,10 +28,20 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
+  background: rgba(99, 102, 241, 0.25);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.6);
+  background: rgba(99, 102, 241, 0.45);
 }
+
+/* Subtle glow effects */
+.saas-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15), transparent 70%);
+}
+
+.saas-card-glow {
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.08), 0 4px 20px -2px rgba(11, 16, 32, 0.5);
+}
+

@@ -66,10 +66,10 @@ export const AdPlacement: React.FC<AdPlacementProps> = ({
         aria-label="Google AdSense Advertisement"
         className={`w-full max-w-5xl mx-auto my-6 px-4 clear-both select-none ${className}`}
       >
-        <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 text-center mb-1.5">
+        <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-[#A7B0C5] text-center mb-1.5">
           Advertisement
         </div>
-        <div className="flex justify-center items-center overflow-hidden min-h-[90px] rounded-xl bg-slate-50/50 dark:bg-slate-900/30 p-2 border border-slate-200/50 dark:border-slate-800/50">
+        <div className="flex justify-center items-center overflow-hidden min-h-[90px] rounded-xl bg-slate-50/50 dark:bg-[#111827]/60 p-2 border border-slate-200/50 dark:border-[#232B45]">
           <ins
             className="adsbygoogle"
             style={{ display: 'block' }}
@@ -90,12 +90,12 @@ export const AdPlacement: React.FC<AdPlacementProps> = ({
         aria-label="AdSense Placement Outline"
         className={`w-full max-w-5xl mx-auto my-4 px-4 select-none ${className}`}
       >
-        <div className="rounded-xl border border-dashed border-sky-300 dark:border-sky-800 bg-sky-50/50 dark:bg-sky-950/20 p-3 text-center flex flex-col items-center justify-center min-h-[70px]">
-          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider text-sky-700 dark:text-sky-300 mb-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
+        <div className="rounded-xl border border-dashed border-indigo-300 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/20 p-3 text-center flex flex-col items-center justify-center min-h-[70px]">
+          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider text-indigo-700 dark:text-[#22D3EE] mb-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
             <span>Reserved AdSense Slot: {slotId || slotType}</span>
           </div>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="text-[11px] text-slate-500 dark:text-[#A7B0C5]">
             Container disabled until approved publisher ID is supplied. Responsive dimensions ready.
           </p>
         </div>

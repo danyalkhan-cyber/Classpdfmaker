@@ -16,15 +16,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   imagesCount,
 }) => {
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
+    <header className="sticky top-0 z-40 w-full bg-white/85 dark:bg-[#0B1020]/85 backdrop-blur-md border-b border-slate-200/80 dark:border-[#232B45] transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
         {/* Zone 1: Brand wordmark & logo */}
         <button
           onClick={() => onSelectTab('home')}
-          className="flex items-center gap-2.5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-lg p-1"
+          className="flex items-center gap-2.5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg p-1"
           aria-label="ClassPDF Maker Home"
         >
-          <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700/80 shadow-xs p-1 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-white dark:bg-[#171D32] border border-slate-200/90 dark:border-[#232B45] shadow-xs p-1 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
             <img
               src="/logo.png"
               alt="ClassPDF Maker Logo"
@@ -32,111 +32,111 @@ export const Navbar: React.FC<NavbarProps> = ({
             />
           </div>
           <div>
-            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
-              ClassPDF<span className="text-sky-600 dark:text-sky-400 font-semibold">Maker</span>
+            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-[#F8FAFC] whitespace-nowrap">
+              ClassPDF<span className="text-indigo-600 dark:text-indigo-400 font-semibold">Maker</span>
             </span>
           </div>
         </button>
 
-        {/* Zone 2: Navigation Links (Single-line, clean typography, hover transitions) */}
-        <nav className="hidden md:flex items-center gap-1 sm:gap-2">
+        {/* Zone 2: Navigation Links (Single-line, clean typography, refined hover) */}
+        <nav className="hidden lg:flex items-center gap-1">
           <button
             onClick={() => onSelectTab('home')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap ${
               currentTab === 'home'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             Home
           </button>
           <button
             onClick={() => onSelectTab('convert')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5 ${
               currentTab === 'convert'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             <span>Image to PDF</span>
             {imagesCount > 0 && (
-              <span className="px-1.5 py-0.2 text-[11px] font-semibold bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 rounded-md">
+              <span className="px-1.5 py-0.2 text-[10px] font-mono font-semibold bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 rounded">
                 {imagesCount}
               </span>
             )}
           </button>
           <button
             onClick={() => onSelectTab('pdf-to-word')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5 ${
               currentTab === 'pdf-to-word'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             <span>PDF to Word</span>
           </button>
           <button
             onClick={() => onSelectTab('word-to-pdf')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5 ${
               currentTab === 'word-to-pdf'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             <span>Word to PDF</span>
-            <span className="px-1.5 py-0.2 text-[10px] font-bold uppercase tracking-wider bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 rounded">
+            <span className="px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider bg-cyan-100/80 dark:bg-cyan-950/60 text-cyan-800 dark:text-[#22D3EE] border border-cyan-200/50 dark:border-cyan-800/40 rounded">
               New
             </span>
           </button>
           <button
             onClick={() => onSelectTab('merge-pdf')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5 ${
               currentTab === 'merge-pdf'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             <span>Merge PDF</span>
           </button>
           <button
             onClick={() => onSelectTab('compress-pdf')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5 ${
               currentTab === 'compress-pdf'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             <span>Compress PDF</span>
-            <span className="px-1.5 py-0.2 text-[10px] font-bold uppercase tracking-wider bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 rounded">
+            <span className="px-1.5 py-0.2 text-[9px] font-bold uppercase tracking-wider bg-cyan-100/80 dark:bg-cyan-950/60 text-cyan-800 dark:text-[#22D3EE] border border-cyan-200/50 dark:border-cyan-800/40 rounded">
               New
             </span>
           </button>
           <button
             onClick={() => onSelectTab('files')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap ${
               currentTab === 'files'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             My Files
           </button>
           <button
             onClick={() => onSelectTab('about')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap ${
               currentTab === 'about'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             About
           </button>
           <button
             onClick={() => onSelectTab('contact')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap ${
               currentTab === 'contact'
-                ? 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/50'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
+                ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/50 dark:border-indigo-500/30'
+                : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100/70 dark:hover:bg-[#171D32]/70'
             }`}
           >
             Contact
@@ -144,29 +144,29 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Zone 3: Actions (Free Public Access Badge, Theme, Primary CTA) */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
           {/* Public Access Badge */}
-          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 rounded-lg whitespace-nowrap">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Public & Free</span>
+          <div className="hidden xl:flex items-center gap-2 px-2.5 py-1 text-[11px] font-medium text-slate-600 dark:text-[#A7B0C5] bg-slate-100/80 dark:bg-[#111827] border border-slate-200 dark:border-[#232B45] rounded-lg whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            <span>100% In-Browser</span>
           </div>
 
           {/* Dark Mode Toggle */}
           <button
             type="button"
             onClick={onToggleDarkMode}
-            className="p-2 text-slate-600 dark:text-amber-400 hover:text-slate-900 dark:hover:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
+            className="p-2 text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] hover:bg-slate-100 dark:hover:bg-[#171D32] border border-slate-200/60 dark:border-[#232B45] rounded-lg transition-all cursor-pointer"
             aria-label={isDarkMode ? 'Switch to Light mode' : 'Switch to Dark mode'}
             title={isDarkMode ? 'Current: Dark Mode (Click for Light Mode)' : 'Current: Light Mode (Click for Dark Mode)'}
           >
-            {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
+            {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
           </button>
 
           {/* Quick Action Button */}
           {currentTab !== 'convert' ? (
             <button
               onClick={() => onSelectTab('convert')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-500 active:bg-sky-700 rounded-lg shadow-xs shadow-sky-600/30 transition-colors whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:scale-[0.98] rounded-lg shadow-sm shadow-indigo-600/25 transition-all whitespace-nowrap"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Convert Now</span>
@@ -176,80 +176,98 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Mobile sub-bar navigation */}
-      <div className="md:hidden flex items-center justify-around border-t border-slate-200/60 dark:border-slate-800 py-2 px-3 bg-white/95 dark:bg-slate-900/95 overflow-x-auto">
+      <div className="lg:hidden flex items-center gap-1 border-t border-slate-200/80 dark:border-[#232B45] py-2 px-3 bg-white/95 dark:bg-[#0B1020]/95 overflow-x-auto scrollbar-none">
         <button
           onClick={() => onSelectTab('home')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'home' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'home'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           Home
         </button>
         <button
           onClick={() => onSelectTab('convert')}
-          className={`text-xs font-medium px-2 py-1 rounded flex items-center gap-1 whitespace-nowrap ${
-            currentTab === 'convert' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md flex items-center gap-1 whitespace-nowrap transition-colors ${
+            currentTab === 'convert'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           Image to PDF
           {imagesCount > 0 && (
-            <span className="px-1 text-[10px] bg-sky-100 dark:bg-sky-900 text-sky-600 dark:text-sky-300 rounded">
+            <span className="px-1 text-[10px] bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 rounded font-mono">
               {imagesCount}
             </span>
           )}
         </button>
         <button
           onClick={() => onSelectTab('pdf-to-word')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'pdf-to-word' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'pdf-to-word'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           PDF to Word
         </button>
         <button
           onClick={() => onSelectTab('word-to-pdf')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'word-to-pdf' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'word-to-pdf'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           Word to PDF
         </button>
         <button
           onClick={() => onSelectTab('merge-pdf')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'merge-pdf' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'merge-pdf'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           Merge PDF
         </button>
         <button
           onClick={() => onSelectTab('compress-pdf')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'compress-pdf' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'compress-pdf'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           Compress PDF
         </button>
         <button
           onClick={() => onSelectTab('files')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'files' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'files'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           My Files
         </button>
         <button
           onClick={() => onSelectTab('about')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'about' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'about'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           About
         </button>
         <button
           onClick={() => onSelectTab('contact')}
-          className={`text-xs font-medium px-2 py-1 rounded whitespace-nowrap ${
-            currentTab === 'contact' ? 'text-sky-600 font-semibold' : 'text-slate-600 dark:text-slate-400'
+          className={`text-xs font-medium px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
+            currentTab === 'contact'
+              ? 'text-indigo-600 dark:text-[#22D3EE] font-semibold bg-indigo-50 dark:bg-indigo-950/50'
+              : 'text-slate-600 dark:text-[#A7B0C5]'
           }`}
         >
           Contact

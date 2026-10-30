@@ -40,17 +40,17 @@
       (function() {
         try {
           var saved = localStorage.getItem('classpdf_theme');
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (saved === 'dark' || (!saved && prefersDark)) {
-            document.documentElement.classList.add('dark');
-          } else {
+          if (saved === 'light') {
             document.documentElement.classList.remove('dark');
+          } else {
+            // Default to premium dark theme
+            document.documentElement.classList.add('dark');
           }
         } catch (e) {}
       })();
     </script>
   </head>
-  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased font-sans selection:bg-sky-100 selection:text-sky-900 transition-colors duration-200">
+  <body class="bg-slate-50 dark:bg-[#0B1020] text-slate-900 dark:text-[#F8FAFC] antialiased font-sans selection:bg-indigo-500/20 selection:text-indigo-400 transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

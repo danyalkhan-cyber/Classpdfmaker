@@ -225,13 +225,13 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-xs">
-      <div className="relative w-full max-w-5xl max-h-[94vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-xs">
+      <div className="relative w-full max-w-5xl max-h-[94vh] bg-white dark:bg-[#171D32] rounded-3xl shadow-2xl border border-slate-200 dark:border-[#232B45] flex flex-col overflow-hidden">
         {/* Top bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800 gap-3 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-slate-100 dark:border-[#232B45] gap-3 shrink-0">
           <div className="truncate">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white truncate">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] truncate">
                 {image.name}
               </h3>
               {savedFeedback && (
@@ -240,19 +240,19 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500 font-mono mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-[#A7B0C5] font-mono mt-0.5">
               {image.width} × {image.height} px · {(image.size / 1024).toFixed(1)} KB · {image.rotation}° rotation
             </p>
           </div>
 
           {/* Mode Switcher Tabs */}
-          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl shrink-0 self-start sm:self-auto">
+          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-[#111827] rounded-xl shrink-0 self-start sm:self-auto border border-transparent dark:border-[#232B45]">
             <button
               onClick={() => setActiveTab('view')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'view'
-                  ? 'bg-white dark:bg-slate-900 text-sky-700 dark:text-sky-400 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-[#171D32] text-indigo-600 dark:text-[#22D3EE] shadow-xs'
+                  : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC]'
               }`}
             >
               <Maximize2 className="w-3.5 h-3.5" />
@@ -260,10 +260,10 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('crop')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'crop'
-                  ? 'bg-white dark:bg-slate-900 text-sky-700 dark:text-sky-400 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-[#171D32] text-indigo-600 dark:text-[#22D3EE] shadow-xs'
+                  : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC]'
               }`}
             >
               <Crop className="w-3.5 h-3.5" />
@@ -271,10 +271,10 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('filter')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'filter'
-                  ? 'bg-white dark:bg-slate-900 text-sky-700 dark:text-sky-400 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-[#171D32] text-indigo-600 dark:text-[#22D3EE] shadow-xs'
+                  : 'text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC]'
               }`}
             >
               <Sliders className="w-3.5 h-3.5" />
@@ -287,7 +287,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             {onRotate && (
               <button
                 onClick={() => onRotate(image.id)}
-                className="p-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                className="p-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-[#F8FAFC] hover:bg-slate-100 dark:hover:bg-[#111827] rounded-lg transition-colors cursor-pointer"
                 title="Rotate 90°"
               >
                 <RotateCw className="w-4 h-4" />
@@ -295,7 +295,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             )}
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-[#F8FAFC] rounded-lg hover:bg-slate-100 dark:hover:bg-[#111827] transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -305,7 +305,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
         {/* Modal Center Viewport */}
         <div className="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[360px] sm:min-h-[460px]">
           {/* Main Visual Canvas Area (9 cols on large screen) */}
-          <div className="lg:col-span-8 xl:col-span-9 bg-slate-100/90 dark:bg-slate-950/90 relative flex items-center justify-center p-4 overflow-auto">
+          <div className="lg:col-span-8 xl:col-span-9 bg-slate-100/90 dark:bg-[#0B1020] relative flex items-center justify-center p-4 overflow-auto">
             {activeTab === 'crop' ? (
               /* Crop Area with interactive bounding box */
               <div
@@ -323,7 +323,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                 <div
                   className="absolute inset-0 pointer-events-none"
                   style={{
-                    boxShadow: '0 0 0 9999px rgba(15, 23, 42, 0.65)',
+                    boxShadow: '0 0 0 9999px rgba(11, 16, 32, 0.75)',
                     clipPath: `polygon(
                       0% 0%, 100% 0%, 100% 100%, 0% 100%,
                       0% ${cropRect.y}%,
@@ -338,7 +338,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
 
                 {/* Crop Box Frame with 8 handles */}
                 <div
-                  className="absolute border-2 border-sky-400 bg-sky-500/10 cursor-move"
+                  className="absolute border-2 border-[#22D3EE] bg-cyan-500/10 cursor-move"
                   style={{
                     left: `${cropRect.x}%`,
                     top: `${cropRect.y}%`,
@@ -360,10 +360,10 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                   </div>
 
                   {/* Corner indicator dots */}
-                  <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white border-2 border-sky-500 rounded-xs" />
-                  <div className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-white border-2 border-sky-500 rounded-xs" />
-                  <div className="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-white border-2 border-sky-500 rounded-xs" />
-                  <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-white border-2 border-sky-500 rounded-xs" />
+                  <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white border-2 border-[#22D3EE] rounded-xs" />
+                  <div className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-white border-2 border-[#22D3EE] rounded-xs" />
+                  <div className="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-white border-2 border-[#22D3EE] rounded-xs" />
+                  <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-white border-2 border-[#22D3EE] rounded-xs" />
                 </div>
               </div>
             ) : (
@@ -385,27 +385,27 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
 
             {/* Zoom pill in view mode */}
             {activeTab === 'view' && (
-              <div className="absolute bottom-4 left-4 flex items-center gap-1 p-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-md">
+              <div className="absolute bottom-4 left-4 flex items-center gap-1 p-1 bg-white/90 dark:bg-[#171D32]/90 backdrop-blur-xs rounded-xl border border-slate-200/80 dark:border-[#232B45] shadow-md">
                 <button
                   onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}
-                  className="p-1.5 text-slate-600 hover:text-slate-900 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="p-1.5 text-slate-600 hover:text-slate-900 dark:text-[#A7B0C5] dark:hover:text-[#F8FAFC] rounded hover:bg-slate-100 dark:hover:bg-[#111827] cursor-pointer"
                   title="Zoom out"
                 >
                   <ZoomOut className="w-3.5 h-3.5" />
                 </button>
-                <span className="text-xs font-mono w-12 text-center text-slate-700 dark:text-slate-300">
+                <span className="text-xs font-mono w-12 text-center text-slate-700 dark:text-[#F8FAFC]">
                   {Math.round(zoom * 100)}%
                 </span>
                 <button
                   onClick={() => setZoom((z) => Math.min(3, z + 0.25))}
-                  className="p-1.5 text-slate-600 hover:text-slate-900 dark:text-slate-300 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="p-1.5 text-slate-600 hover:text-slate-900 dark:text-[#A7B0C5] dark:hover:text-[#F8FAFC] rounded hover:bg-slate-100 dark:hover:bg-[#111827] cursor-pointer"
                   title="Zoom in"
                 >
                   <ZoomIn className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => setZoom(1)}
-                  className="px-2 py-1 text-[11px] text-slate-500 hover:text-slate-900 rounded"
+                  className="px-2 py-1 text-[11px] text-slate-500 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] rounded cursor-pointer"
                 >
                   Reset
                 </button>
@@ -414,12 +414,12 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
           </div>
 
           {/* Right Editing Panel (3 cols on large screen) */}
-          <div className="lg:col-span-4 xl:col-span-3 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-800 p-5 bg-white dark:bg-slate-900 overflow-y-auto space-y-6">
+          <div className="lg:col-span-4 xl:col-span-3 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-[#232B45] p-5 bg-white dark:bg-[#171D32] overflow-y-auto space-y-6">
             {activeTab === 'crop' && (
               /* Crop Controls */
               <div className="space-y-5">
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-[#A7B0C5]">
                     Crop Preset Ratios
                   </h4>
                   <div className="grid grid-cols-3 gap-1.5 mt-2">
@@ -436,10 +436,10 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                         key={r.id}
                         type="button"
                         onClick={() => applyCropRatio(r.id)}
-                        className={`py-1.5 px-2 text-xs font-medium rounded-lg border transition-all ${
+                        className={`py-1.5 px-2 text-xs font-medium rounded-lg border transition-all cursor-pointer ${
                           aspectRatioPreset === r.id
-                            ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-semibold'
-                            : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50'
+                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-[#22D3EE] font-semibold'
+                            : 'border-slate-200 dark:border-[#232B45] text-slate-600 dark:text-[#A7B0C5] hover:bg-slate-50 dark:hover:bg-[#111827]'
                         }`}
                       >
                         {r.label}
@@ -449,24 +449,24 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-[#A7B0C5]">
                     Quick Desk Trim
                   </h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-slate-400 dark:text-slate-400 mt-0.5">
                     Remove background edges from desk or table
                   </p>
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     <button
                       type="button"
                       onClick={() => applyPresetMargins(5)}
-                      className="py-1.5 px-3 text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 transition-colors"
+                      className="py-1.5 px-3 text-xs bg-slate-100 dark:bg-[#111827] text-slate-700 dark:text-[#F8FAFC] border border-transparent dark:border-[#232B45] rounded-lg hover:bg-slate-200 dark:hover:bg-[#111827]/80 transition-colors cursor-pointer"
                     >
                       Trim 5% Margins
                     </button>
                     <button
                       type="button"
                       onClick={() => applyPresetMargins(10)}
-                      className="py-1.5 px-3 text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 transition-colors"
+                      className="py-1.5 px-3 text-xs bg-slate-100 dark:bg-[#111827] text-slate-700 dark:text-[#F8FAFC] border border-transparent dark:border-[#232B45] rounded-lg hover:bg-slate-200 dark:hover:bg-[#111827]/80 transition-colors cursor-pointer"
                     >
                       Trim 10% Margins
                     </button>
@@ -478,7 +478,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     type="button"
                     onClick={handleExecuteCrop}
                     disabled={isApplying}
-                    className="w-full py-2.5 px-4 text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 px-4 text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <Crop className="w-3.5 h-3.5" />
                     <span>Apply Crop Section</span>
@@ -492,24 +492,24 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
               <div className="space-y-6">
                 {/* Document Enhancer Presets */}
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-[#A7B0C5] mb-2">
                     Document Presets
                   </h4>
                   <div className="grid grid-cols-1 gap-2">
                     <button
                       type="button"
                       onClick={() => handlePresetSelect('clean_scan')}
-                      className={`p-2.5 rounded-xl border text-left transition-all ${
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                         preset === 'clean_scan'
-                          ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/60 text-sky-800 dark:text-sky-200 ring-1 ring-sky-500'
-                          : 'border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+                          ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-[#22D3EE] ring-1 ring-indigo-500'
+                          : 'border-slate-200 dark:border-[#232B45] text-slate-700 dark:text-[#F8FAFC] hover:bg-slate-50 dark:hover:bg-[#111827]'
                       }`}
                     >
                       <div className="text-xs font-bold flex items-center justify-between">
                         <span>Clean Scan (B&W High Contrast)</span>
-                        <Sparkles className="w-3.5 h-3.5 text-sky-500" />
+                        <Sparkles className="w-3.5 h-3.5 text-indigo-500 dark:text-[#22D3EE]" />
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
+                      <p className="text-[11px] text-slate-500 dark:text-[#A7B0C5] mt-0.5">
                         Whitens grey notebook paper, darkens pencil and pen ink.
                       </p>
                     </button>
@@ -517,16 +517,16 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     <button
                       type="button"
                       onClick={() => handlePresetSelect('magic_color')}
-                      className={`p-2.5 rounded-xl border text-left transition-all ${
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                         preset === 'magic_color'
-                          ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/60 text-sky-800 dark:text-sky-200 ring-1 ring-sky-500'
-                          : 'border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+                          ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-[#22D3EE] ring-1 ring-indigo-500'
+                          : 'border-slate-200 dark:border-[#232B45] text-slate-700 dark:text-[#F8FAFC] hover:bg-slate-50 dark:hover:bg-[#111827]'
                       }`}
                     >
                       <div className="text-xs font-bold flex items-center justify-between">
                         <span>Magic Color (Enhanced Ink)</span>
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
+                      <p className="text-[11px] text-slate-500 dark:text-[#A7B0C5] mt-0.5">
                         Boosts colored diagrams, highlighters, and charts.
                       </p>
                     </button>
@@ -534,14 +534,14 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     <button
                       type="button"
                       onClick={() => handlePresetSelect('grayscale')}
-                      className={`p-2.5 rounded-xl border text-left transition-all ${
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                         preset === 'grayscale'
-                          ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/60 text-sky-800 dark:text-sky-200 ring-1 ring-sky-500'
-                          : 'border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+                          ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-[#22D3EE] ring-1 ring-indigo-500'
+                          : 'border-slate-200 dark:border-[#232B45] text-slate-700 dark:text-[#F8FAFC] hover:bg-slate-50 dark:hover:bg-[#111827]'
                       }`}
                     >
                       <div className="text-xs font-bold">Grayscale</div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
+                      <p className="text-[11px] text-slate-500 dark:text-[#A7B0C5] mt-0.5">
                         Neutralizes yellow desk lamp cast.
                       </p>
                     </button>
@@ -549,10 +549,10 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     <button
                       type="button"
                       onClick={() => handlePresetSelect('original')}
-                      className={`p-2.5 rounded-xl border text-left transition-all ${
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                         preset === 'original' && brightness === 0 && contrast === 0
-                          ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/60 text-sky-800 dark:text-sky-200 ring-1 ring-sky-500'
-                          : 'border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+                          ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-[#22D3EE] ring-1 ring-indigo-500'
+                          : 'border-slate-200 dark:border-[#232B45] text-slate-700 dark:text-[#F8FAFC] hover:bg-slate-50 dark:hover:bg-[#111827]'
                       }`}
                     >
                       <div className="text-xs font-bold">Original Natural Photo</div>
@@ -563,11 +563,11 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                 {/* Brightness Slider */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <label className="text-xs font-semibold text-slate-700 dark:text-[#F8FAFC] flex items-center gap-1.5">
                       <Sun className="w-3.5 h-3.5 text-amber-500" />
                       <span>Brightness</span>
                     </label>
-                    <span className="text-xs font-mono text-slate-500 tabular-nums">
+                    <span className="text-xs font-mono text-slate-500 dark:text-[#A7B0C5] tabular-nums">
                       {brightness > 0 ? `+${brightness}` : brightness}%
                     </span>
                   </div>
@@ -577,18 +577,18 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     max={60}
                     value={brightness}
                     onChange={(e) => handleBrightnessChange(Number(e.target.value))}
-                    className="w-full accent-sky-600 cursor-pointer"
+                    className="w-full accent-indigo-500 cursor-pointer"
                   />
                 </div>
 
                 {/* Contrast Slider */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                      <ContrastIcon className="w-3.5 h-3.5 text-indigo-500" />
+                    <label className="text-xs font-semibold text-slate-700 dark:text-[#F8FAFC] flex items-center gap-1.5">
+                      <ContrastIcon className="w-3.5 h-3.5 text-indigo-400" />
                       <span>Contrast</span>
                     </label>
-                    <span className="text-xs font-mono text-slate-500 tabular-nums">
+                    <span className="text-xs font-mono text-slate-500 dark:text-[#A7B0C5] tabular-nums">
                       {contrast > 0 ? `+${contrast}` : contrast}%
                     </span>
                   </div>
@@ -598,7 +598,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                     max={80}
                     value={contrast}
                     onChange={(e) => handleContrastChange(Number(e.target.value))}
-                    className="w-full accent-sky-600 cursor-pointer"
+                    className="w-full accent-indigo-500 cursor-pointer"
                   />
                 </div>
               </div>
@@ -607,11 +607,11 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             {activeTab === 'view' && (
               /* View / Inspect details */
               <div className="space-y-4">
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 space-y-2">
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#111827] border border-slate-100 dark:border-[#232B45] space-y-2">
+                  <h4 className="text-xs font-bold text-slate-800 dark:text-[#F8FAFC]">
                     Note Page Metadata
                   </h4>
-                  <div className="space-y-1 text-[11px] text-slate-500 font-mono">
+                  <div className="space-y-1 text-[11px] text-slate-500 dark:text-[#A7B0C5] font-mono">
                     <p>Filename: {image.name}</p>
                     <p>Width: {image.width}px</p>
                     <p>Height: {image.height}px</p>
@@ -624,11 +624,11 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
         </div>
 
         {/* Modal Bottom Bar */}
-        <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+        <div className="p-4 border-t border-slate-100 dark:border-[#232B45] bg-slate-50/70 dark:bg-[#111827] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           <button
             type="button"
             onClick={handleRevertAll}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-600 dark:text-[#A7B0C5] hover:text-slate-900 dark:hover:text-[#F8FAFC] rounded-lg transition-colors cursor-pointer"
           >
             <Undo2 className="w-3.5 h-3.5" />
             <span>Revert to Raw Photo</span>
@@ -638,7 +638,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 sm:flex-initial px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800 rounded-xl transition-colors"
+              className="flex-1 sm:flex-initial px-4 py-2 text-xs font-medium text-slate-700 dark:text-[#A7B0C5] hover:bg-slate-200/70 dark:hover:bg-[#171D32] rounded-xl transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -648,7 +648,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
                 type="button"
                 onClick={handleSaveChanges}
                 disabled={isApplying}
-                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-6 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 active:bg-sky-700 rounded-xl shadow-xs transition-colors"
+                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-6 py-2 text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:bg-indigo-700 rounded-xl shadow-xs transition-all cursor-pointer"
               >
                 <Check className="w-3.5 h-3.5" />
                 <span>Save to PDF Queue</span>
