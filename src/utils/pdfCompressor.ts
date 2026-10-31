@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as pdfjsLib from 'pdfjs-dist';
 import {
   PDFDocument,
   PDFName,
@@ -10,6 +11,11 @@ import {
   PDFRawStream,
   PDFRef,
 } from 'pdf-lib';
+
+// Set up the local pdfjs worker
+if (typeof window !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+}
 
 export type CompressionLevel = 'low' | 'recommended' | 'high';
 
@@ -149,7 +155,11 @@ async function compressJpegImage(
   }
 
   try {
-    const blob = new Blob([jpegBytes as unknown as BlobPart], { type: 'image/jpeg' });
+    const exactSlice = jpegBytes.buffer.slice(
+      jpegBytes.byteOffset,
+      jpegBytes.byteOffset + jpegBytes.byteLength
+    );
+    const blob = new Blob([exactSlice as ArrayBuffer], { type: 'image/jpeg' });
     let bmp: ImageBitmap | null = null;
 
     if ('createImageBitmap' in window) {
@@ -173,10 +183,10 @@ async function compressJpegImage(
     let quality = 0.65;
 
     if (level === 'low') {
-      maxDimension = 2048;
-      quality = 0.82;
+      maxDimension = 2000;
+      quality = 0.80;
     } else if (level === 'recommended') {
-      maxDimension = 1500;
+      maxDimension = 1400;
       quality = 0.65;
     } else if (level === 'high') {
       maxDimension = 1000;
@@ -205,11 +215,14 @@ async function compressJpegImage(
       return null;
     }
 
+    // White background
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, targetW, targetH);
+
     if (bmp) {
       ctx.drawImage(bmp, 0, 0, targetW, targetH);
       bmp.close?.();
     } else {
-      // Fallback using HTMLImageElement
       const imgUrl = URL.createObjectURL(blob);
       await new Promise<void>((resolve, reject) => {
         const img = new Image();
@@ -230,12 +243,14 @@ async function compressJpegImage(
       canvas.toBlob((b) => resolve(b), 'image/jpeg', quality);
     });
 
+    canvas.width = 0;
+    canvas.height = 0;
+
     if (!compressedBlob) return null;
 
     const arrayBuf = await compressedBlob.arrayBuffer();
     const compressedBytes = new Uint8Array(arrayBuf);
 
-    // Only return if it actually reduced the stream byte size
     if (compressedBytes.length < jpegBytes.length) {
       return {
         compressedBytes,
@@ -251,10 +266,246 @@ async function compressJpegImage(
 }
 
 /**
+ * Attempts in-place optimization of indirect image streams in the PDFDocument
+ */
+async function tryInPlaceOptimization(
+  arrayBuffer: ArrayBuffer,
+  level: CompressionLevel,
+  onProgress?: (progress: CompressProgress) => void
+): Promise<{ bytes: Uint8Array; imagesOptimizedCount: number } | null> {
+  try {
+    const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: false });
+
+    const imageStreams: {
+      ref: PDFRef;
+      stream: PDFRawStream;
+      width: number;
+      height: number;
+      filterName: string;
+    }[] = [];
+
+    for (const [ref, obj] of pdfDoc.context.enumerateIndirectObjects()) {
+      if (obj instanceof PDFRawStream) {
+        const subtypeObj = pdfDoc.context.lookup(obj.dict.get(PDFName.of('Subtype')));
+        if (subtypeObj && subtypeObj.toString() === '/Image') {
+          const filterObj = pdfDoc.context.lookup(obj.dict.get(PDFName.of('Filter')));
+          const widthObj = pdfDoc.context.lookup(obj.dict.get(PDFName.of('Width')));
+          const heightObj = pdfDoc.context.lookup(obj.dict.get(PDFName.of('Height')));
+
+          const filterName = filterObj ? filterObj.toString() : '';
+          const width = widthObj ? parseInt(widthObj.toString(), 10) || 0 : 0;
+          const height = heightObj ? parseInt(heightObj.toString(), 10) || 0 : 0;
+
+          imageStreams.push({
+            ref,
+            stream: obj,
+            width,
+            height,
+            filterName,
+          });
+        }
+      }
+    }
+
+    let imagesOptimizedCount = 0;
+
+    if (imageStreams.length > 0) {
+      onProgress?.({
+        step: 'optimizing',
+        message: `Analyzing ${imageStreams.length} embedded image resource(s)...`,
+        percentage: 35,
+        totalImages: imageStreams.length,
+        processedImages: 0,
+      });
+
+      for (let i = 0; i < imageStreams.length; i++) {
+        const imgItem = imageStreams[i];
+        const isJpeg =
+          imgItem.filterName.includes('/DCTDecode') ||
+          (imgItem.stream.contents[0] === 0xff && imgItem.stream.contents[1] === 0xd8);
+
+        if (isJpeg && imgItem.stream.contents.length > 1024) {
+          const compressed = await compressJpegImage(
+            imgItem.stream.contents,
+            imgItem.width,
+            imgItem.height,
+            level
+          );
+
+          if (compressed) {
+            imgItem.stream.dict.set(
+              PDFName.of('Length'),
+              PDFNumber.of(compressed.compressedBytes.length)
+            );
+            if (compressed.newWidth > 0 && compressed.newHeight > 0) {
+              imgItem.stream.dict.set(
+                PDFName.of('Width'),
+                PDFNumber.of(compressed.newWidth)
+              );
+              imgItem.stream.dict.set(
+                PDFName.of('Height'),
+                PDFNumber.of(compressed.newHeight)
+              );
+            }
+            imgItem.stream.dict.set(PDFName.of('Filter'), PDFName.of('DCTDecode'));
+            imgItem.stream.dict.set(PDFName.of('ColorSpace'), PDFName.of('DeviceRGB'));
+            imgItem.stream.dict.delete(PDFName.of('DecodeParms'));
+
+            const newStream = PDFRawStream.of(
+              imgItem.stream.dict,
+              compressed.compressedBytes
+            );
+            pdfDoc.context.assign(imgItem.ref, newStream);
+            imagesOptimizedCount++;
+          }
+        }
+      }
+    }
+
+    // Clean up unnecessary metadata
+    try {
+      pdfDoc.setTitle('');
+      pdfDoc.setAuthor('');
+      pdfDoc.setSubject('');
+      pdfDoc.setKeywords([]);
+      pdfDoc.setProducer('ClassPDF Maker');
+      pdfDoc.setCreator('ClassPDF Maker');
+    } catch {
+      // Ignore metadata cleanup errors
+    }
+
+    const savedBytes = await pdfDoc.save({ useObjectStreams: true });
+    return { bytes: savedBytes, imagesOptimizedCount };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * High-fidelity Page Canvas Compression via pdfjsLib + pdf-lib
+ * Renders each PDF page at a controlled DPI and re-encodes pages with modern JPEG compression.
+ * Perfect for scanned documents, FlateDecode PDFs, image-based notes, and high-DPI exports.
+ */
+async function compressViaPageRendering(
+  arrayBuffer: ArrayBuffer,
+  level: CompressionLevel,
+  onProgress?: (progress: CompressProgress) => void
+): Promise<{ bytes: Uint8Array; pageCount: number } | null> {
+  try {
+    const loadingTask = pdfjsLib.getDocument({
+      data: new Uint8Array(arrayBuffer),
+      useSystemFonts: true,
+      stopAtErrors: false,
+    });
+    const pdfJsDoc = await loadingTask.promise;
+    const numPages = pdfJsDoc.numPages;
+
+    if (numPages === 0) return null;
+
+    // Parameters mapped to compression level
+    let scale = 1.4;
+    let quality = 0.65;
+
+    if (level === 'low') {
+      scale = 1.8; // ~130 DPI, sharp notes and text
+      quality = 0.80;
+    } else if (level === 'recommended') {
+      scale = 1.4; // ~100 DPI, optimal balance
+      quality = 0.65;
+    } else if (level === 'high') {
+      scale = 1.1; // ~80 DPI, maximum size reduction
+      quality = 0.45;
+    }
+
+    const pageImages: {
+      bytes: Uint8Array;
+      pageWidthPt: number;
+      pageHeightPt: number;
+    }[] = [];
+
+    for (let p = 1; p <= numPages; p++) {
+      onProgress?.({
+        step: 'optimizing',
+        message: `Compressing page ${p} of ${numPages}...`,
+        percentage: Math.round(25 + (p / numPages) * 60),
+        totalImages: numPages,
+        processedImages: p,
+      });
+
+      const page = await pdfJsDoc.getPage(p);
+      const baseViewport = page.getViewport({ scale: 1.0 });
+      const scaledViewport = page.getViewport({ scale });
+
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(scaledViewport.width);
+      canvas.height = Math.round(scaledViewport.height);
+      const ctx = canvas.getContext('2d');
+
+      if (!ctx) {
+        throw new Error('Canvas 2D context not available');
+      }
+
+      // Draw clean background
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Render PDF page content
+      // @ts-ignore - pdfjs typing differences
+      await page.render({ canvasContext: ctx, viewport: scaledViewport }).promise;
+
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob((b) => resolve(b), 'image/jpeg', quality);
+      });
+
+      canvas.width = 0;
+      canvas.height = 0;
+
+      if (!blob) {
+        throw new Error(`Failed to encode compressed page ${p}`);
+      }
+
+      const imgBuf = await blob.arrayBuffer();
+      pageImages.push({
+        bytes: new Uint8Array(imgBuf),
+        pageWidthPt: baseViewport.width,
+        pageHeightPt: baseViewport.height,
+      });
+    }
+
+    onProgress?.({
+      step: 'compiling',
+      message: 'Compiling compressed pages into document...',
+      percentage: 90,
+    });
+
+    // Assemble new PDF using pdf-lib
+    const newDoc = await PDFDocument.create();
+
+    for (const pageItem of pageImages) {
+      const embeddedJpg = await newDoc.embedJpg(pageItem.bytes);
+      const newPage = newDoc.addPage([pageItem.pageWidthPt, pageItem.pageHeightPt]);
+      newPage.drawImage(embeddedJpg, {
+        x: 0,
+        y: 0,
+        width: pageItem.pageWidthPt,
+        height: pageItem.pageHeightPt,
+      });
+    }
+
+    const compiledBytes = await newDoc.save({ useObjectStreams: true });
+    return { bytes: compiledBytes, pageCount: numPages };
+  } catch (err) {
+    console.warn('Page rendering compression fallback error:', err);
+    return null;
+  }
+}
+
+/**
  * Compresses a PDF file completely in the browser:
- * 1. Downsamples and re-encodes high-resolution embedded image streams
- * 2. Cleans up unreferenced structural objects
- * 3. Compresses indirect objects into modern cross-reference object streams (useObjectStreams: true)
+ * 1. Analyzes document and tests in-place stream optimization
+ * 2. If in-place achieves substantial reduction (e.g. >= 10%), uses in-place result
+ * 3. Otherwise runs page-level re-encoding to compress Flate/scanned/image-heavy documents
+ * 4. Honestly reports file size reduction and metrics
  */
 export async function compressPdfFile(
   file: File,
@@ -276,133 +527,72 @@ export async function compressPdfFile(
 
   onProgress?.({
     step: 'analyzing',
-    message: 'Reading PDF structures and embedded resources...',
-    percentage: 25,
+    message: 'Analyzing PDF resources and image structures...',
+    percentage: 20,
   });
 
   const arrayBuffer = await file.arrayBuffer();
-  const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: false });
-  const pageCount = pdfDoc.getPageCount();
+  const pageCount = inspection.pageCount || 1;
 
-  // Find all image XObjects in the document
-  const imageStreams: {
-    ref: PDFRef;
-    stream: PDFRawStream;
-    width: number;
-    height: number;
-    filterName: string;
-  }[] = [];
+  // Step 1: Attempt In-Place stream optimization
+  const inPlaceResult = await tryInPlaceOptimization(arrayBuffer, options.level, onProgress);
 
-  for (const [ref, obj] of pdfDoc.context.enumerateIndirectObjects()) {
-    if (obj instanceof PDFRawStream) {
-      const subtype = obj.dict.get(PDFName.of('Subtype'));
-      if (subtype && subtype.toString() === '/Image') {
-        const filter = obj.dict.get(PDFName.of('Filter'));
-        const widthObj = obj.dict.get(PDFName.of('Width'));
-        const heightObj = obj.dict.get(PDFName.of('Height'));
+  let chosenBytes: Uint8Array | null = null;
+  let imagesOptimizedCount = inPlaceResult?.imagesOptimizedCount || 0;
+  let methodUsed: 'in-place' | 'rendered' = 'in-place';
 
-        const filterName = filter ? filter.toString() : '';
-        const width = widthObj ? parseInt(widthObj.toString(), 10) || 0 : 0;
-        const height = heightObj ? parseInt(heightObj.toString(), 10) || 0 : 0;
+  const inPlaceLength = inPlaceResult?.bytes.length || Infinity;
+  const inPlaceSignificant = inPlaceLength < originalSizeBytes * 0.90; // At least 10% reduction
 
-        imageStreams.push({
-          ref,
-          stream: obj,
-          width,
-          height,
-          filterName,
-        });
-      }
-    }
-  }
-
-  let imagesOptimizedCount = 0;
-
-  if (imageStreams.length > 0) {
-    onProgress?.({
-      step: 'optimizing',
-      message: `Optimizing ${imageStreams.length} embedded image resource(s)...`,
-      percentage: 40,
-      totalImages: imageStreams.length,
-      processedImages: 0,
-    });
-
-    for (let i = 0; i < imageStreams.length; i++) {
-      const imgItem = imageStreams[i];
-      const isJpeg =
-        imgItem.filterName.includes('/DCTDecode') ||
-        (imgItem.stream.contents[0] === 0xff && imgItem.stream.contents[1] === 0xd8);
-
-      if (isJpeg && imgItem.stream.contents.length > 1024) {
-        onProgress?.({
-          step: 'optimizing',
-          message: `Compressing image ${i + 1} of ${imageStreams.length}...`,
-          percentage: Math.round(40 + ((i + 1) / imageStreams.length) * 45),
-          totalImages: imageStreams.length,
-          processedImages: i + 1,
-        });
-
-        const compressed = await compressJpegImage(
-          imgItem.stream.contents,
-          imgItem.width,
-          imgItem.height,
-          options.level
-        );
-
-        if (compressed) {
-          // Update dictionary metadata
-          imgItem.stream.dict.set(
-            PDFName.of('Length'),
-            PDFNumber.of(compressed.compressedBytes.length)
-          );
-          if (compressed.newWidth > 0 && compressed.newHeight > 0) {
-            imgItem.stream.dict.set(
-              PDFName.of('Width'),
-              PDFNumber.of(compressed.newWidth)
-            );
-            imgItem.stream.dict.set(
-              PDFName.of('Height'),
-              PDFNumber.of(compressed.newHeight)
-            );
-          }
-          // Replace raw stream in the indirect object table
-          const newStream = PDFRawStream.of(
-            imgItem.stream.dict,
-            compressed.compressedBytes
-          );
-          pdfDoc.context.assign(imgItem.ref, newStream);
-          imagesOptimizedCount++;
-        }
-      }
-    }
+  if (inPlaceSignificant) {
+    chosenBytes = inPlaceResult!.bytes;
+    methodUsed = 'in-place';
   } else {
-    onProgress?.({
-      step: 'optimizing',
-      message: 'Compacting PDF streams and font dictionaries...',
-      percentage: 60,
-    });
+    // Step 2: Run Page Canvas Re-Encoding (handles scanned PDFs, FlateDecode images, canvas notes, etc.)
+    const renderedResult = await compressViaPageRendering(arrayBuffer, options.level, onProgress);
+    const renderedLength = renderedResult?.bytes.length || Infinity;
+
+    if (renderedLength < originalSizeBytes) {
+      if (inPlaceLength < renderedLength && inPlaceLength < originalSizeBytes) {
+        chosenBytes = inPlaceResult!.bytes;
+        methodUsed = 'in-place';
+      } else {
+        chosenBytes = renderedResult!.bytes;
+        methodUsed = 'rendered';
+        imagesOptimizedCount = pageCount;
+      }
+    } else if (inPlaceLength < originalSizeBytes) {
+      chosenBytes = inPlaceResult!.bytes;
+      methodUsed = 'in-place';
+    } else {
+      // Neither method could reduce the size (document is already minimal)
+      chosenBytes = new Uint8Array(arrayBuffer);
+    }
   }
 
   onProgress?.({
     step: 'compiling',
-    message: 'Compiling compressed PDF into cross-reference object streams...',
-    percentage: 90,
+    message: 'Finalizing compressed document...',
+    percentage: 95,
   });
 
-  // Save with modern object streams compression
-  const compressedBytes = await pdfDoc.save({ useObjectStreams: true });
-  const compressedSizeBytes = compressedBytes.length;
-
+  const compressedSizeBytes = chosenBytes ? chosenBytes.length : originalSizeBytes;
   const sizeReducedBytes = originalSizeBytes - compressedSizeBytes;
   const reductionPercentage =
-    originalSizeBytes > 0
+    originalSizeBytes > 0 && sizeReducedBytes > 0
       ? ((originalSizeBytes - compressedSizeBytes) / originalSizeBytes) * 100
       : 0;
-  const isSmaller = sizeReducedBytes > 0;
+  const isSmaller = sizeReducedBytes > 0 && reductionPercentage >= 0.5;
 
   let explanation = '';
   if (isSmaller) {
-    if (imagesOptimizedCount > 0) {
+    if (methodUsed === 'rendered') {
+      explanation = `Successfully reduced file size by ${reductionPercentage.toFixed(
+        1
+      )}% (${formatBytes(
+        sizeReducedBytes
+      )} saved) by optimizing scanned/page image streams and compacting PDF structures.`;
+    } else if (imagesOptimizedCount > 0) {
       explanation = `Successfully reduced file size by ${reductionPercentage.toFixed(
         1
       )}% (${formatBytes(
@@ -413,11 +603,11 @@ export async function compressPdfFile(
         1
       )}% (${formatBytes(
         sizeReducedBytes
-      )} saved) by compacting PDF object structures and removing redundant streams.`;
+      )} saved) by compacting PDF object streams and structure.`;
     }
   } else {
     explanation =
-      'This document is already highly optimized or compressed. Re-encoding could not achieve a smaller file size without degrading document content.';
+      'This document is already highly optimized. Re-encoding could not achieve a smaller file size without degrading document content.';
   }
 
   // Construct filename
@@ -429,7 +619,14 @@ export async function compressPdfFile(
     outName += '.pdf';
   }
 
-  const blob = new Blob([compressedBytes.buffer as ArrayBuffer], {
+  const finalBuffer = chosenBytes
+    ? chosenBytes.buffer.slice(
+        chosenBytes.byteOffset,
+        chosenBytes.byteOffset + chosenBytes.byteLength
+      )
+    : arrayBuffer;
+
+  const blob = new Blob([finalBuffer as ArrayBuffer], {
     type: 'application/pdf',
   });
   const blobUrl = URL.createObjectURL(blob);
@@ -446,7 +643,7 @@ export async function compressPdfFile(
     filename: outName,
     originalSizeBytes,
     compressedSizeBytes,
-    sizeReducedBytes,
+    sizeReducedBytes: Math.max(0, sizeReducedBytes),
     reductionPercentage: parseFloat(reductionPercentage.toFixed(1)),
     isSmaller,
     pageCount,

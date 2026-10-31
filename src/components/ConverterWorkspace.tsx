@@ -147,6 +147,7 @@ export const ConverterWorkspace: React.FC<ConverterWorkspaceProps> = ({
             onReset={onResetSettings}
             imageCount={images.length}
             totalImageBytes={totalImageBytes}
+            images={images}
           />
 
           {images.length > 0 && (

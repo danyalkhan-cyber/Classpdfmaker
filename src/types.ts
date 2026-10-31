@@ -2,7 +2,7 @@ export type PageSize = 'a4' | 'letter' | 'original';
 export type PageOrientation = 'portrait' | 'landscape' | 'auto';
 export type PageMargin = 'none' | 'small' | 'normal';
 export type ImageFitting = 'contain' | 'cover' | 'fill';
-export type ImageQuality = 'standard' | 'high';
+export type ImageQuality = 'standard' | 'high' | 'custom';
 export type ImagesPerPage = 1 | 2 | 4;
 
 export interface UploadedImage {
@@ -27,6 +27,7 @@ export interface PdfSettings {
   margin: PageMargin;
   fitting: ImageFitting;
   quality: ImageQuality;
+  qualityPercent: number; // 40 to 100 (e.g. 70, 80, 90)
   imagesPerPage: ImagesPerPage;
   filename: string;
   backgroundColor: string;

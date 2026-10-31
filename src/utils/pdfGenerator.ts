@@ -1,19 +1,21 @@
 import { jsPDF } from 'jspdf';
-import { UploadedImage, PdfSettings, ImageFitting } from '../types';
+import { UploadedImage, PdfSettings, ImageFitting, ImageQuality } from '../types';
 
 /**
  * Creates an HTMLCanvasElement with the image rotated by the specified angle
  */
-function getRotatedImageData(image: UploadedImage, qualitySetting: 'standard' | 'high'): Promise<{ dataUrl: string; width: number; height: number }> {
+function getRotatedImageData(image: UploadedImage, qualitySetting: ImageQuality, qualityPercent?: number): Promise<{ dataUrl: string; width: number; height: number }> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = () => {
+      const origWidth = img.naturalWidth || img.width;
+      const origHeight = img.naturalHeight || img.height;
       const angle = (image.rotation % 360 + 360) % 360;
       const is90or270 = angle === 90 || angle === 270;
       
-      const targetWidth = is90or270 ? img.height : img.width;
-      const targetHeight = is90or270 ? img.width : img.height;
+      const targetWidth = is90or270 ? origHeight : origWidth;
+      const targetHeight = is90or270 ? origWidth : origHeight;
 
       const canvas = document.createElement('canvas');
       canvas.width = targetWidth;
@@ -33,11 +35,17 @@ function getRotatedImageData(image: UploadedImage, qualitySetting: 'standard' | 
       ctx.save();
       ctx.translate(targetWidth / 2, targetHeight / 2);
       ctx.rotate((angle * Math.PI) / 180);
-      ctx.drawImage(img, -img.width / 2, -img.height / 2);
+      ctx.drawImage(img, -origWidth / 2, -origHeight / 2);
       ctx.restore();
 
-      const quality = qualitySetting === 'high' ? 0.95 : 0.82;
-      const mimeType = image.type === 'image/png' ? 'image/png' : 'image/jpeg';
+      let quality = 0.85;
+      if (qualityPercent !== undefined && !isNaN(qualityPercent)) {
+        quality = Math.max(0.3, Math.min(1.0, qualityPercent / 100));
+      } else if (qualitySetting === 'high') {
+        quality = 0.95;
+      }
+
+      const mimeType = (image.type === 'image/png' && quality >= 0.99) ? 'image/png' : 'image/jpeg';
       const rotatedDataUrl = canvas.toDataURL(mimeType, quality);
 
       resolve({
@@ -84,7 +92,8 @@ export async function generatePdfFromImages(
     normal: 16,
   };
 
-  const marginMm = marginValues[settings.margin];
+  const isNoneMargin = settings.margin === 'none';
+  const marginMm = isNoneMargin ? 0 : (marginValues[settings.margin] ?? 8);
   const imagesPerPage = settings.imagesPerPage;
 
   // Process all images to handle rotation and quality
@@ -92,7 +101,7 @@ export async function generatePdfFromImages(
 
   for (let i = 0; i < images.length; i++) {
     onProgress?.(i + 1, total, `Processing image ${i + 1} of ${total}: ${images[i].name}...`);
-    const processed = await getRotatedImageData(images[i], settings.quality);
+    const processed = await getRotatedImageData(images[i], settings.quality, settings.qualityPercent);
     processedImages.push({
       ...processed,
       originalName: images[i].name,
@@ -165,10 +174,10 @@ export async function generatePdfFromImages(
     }
     pageCount++;
 
-    // Optional student header
+    // Optional student header (only if explicitly enabled with non-empty info)
     let topReservedMm = marginMm;
-    if (settings.addHeader && (settings.studentName || settings.courseTitle)) {
-      topReservedMm += 10;
+    if (settings.addHeader && (settings.studentName?.trim() || settings.courseTitle?.trim())) {
+      topReservedMm = Math.max(marginMm, 10);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(100, 116, 139); // Slate-500
@@ -179,19 +188,17 @@ export async function generatePdfFromImages(
         new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
       ].filter(Boolean).join('  ·  ');
 
-      doc.text(headerText, marginMm || 10, marginMm + 6);
+      const headerX = marginMm > 0 ? marginMm : 6;
+      doc.text(headerText, headerX, 6);
       
       // Hairline divider
       doc.setDrawColor(226, 232, 240); // Slate-200
       doc.setLineWidth(0.2);
-      doc.line(marginMm || 10, marginMm + 8, pageWidthMm - (marginMm || 10), marginMm + 8);
+      doc.line(headerX, 8, pageWidthMm - headerX, 8);
     }
 
-    // Optional page footer reservation
-    let bottomReservedMm = marginMm;
-    if (settings.addPageNumbers) {
-      bottomReservedMm += 8;
-    }
+    // For None margin, exactly 0 on all four sides. For Small and Normal, equal margin on all four sides.
+    const bottomReservedMm = marginMm;
 
     // Available drawing area
     const availableWidth = Math.max(10, pageWidthMm - marginMm * 2);
@@ -203,27 +210,29 @@ export async function generatePdfFromImages(
       drawImageInSlot(doc, img, marginMm, topReservedMm, availableWidth, availableHeight, settings.fitting);
     } else if (pageImgs.length === 2) {
       // 2 images: split vertically or horizontally based on page orientation
+      const gap = marginMm === 0 ? 0 : 4;
       if (pageOrientation === 'portrait') {
-        const slotHeight = (availableHeight - 4) / 2;
+        const slotHeight = (availableHeight - gap) / 2;
         drawImageInSlot(doc, pageImgs[0], marginMm, topReservedMm, availableWidth, slotHeight, settings.fitting);
-        drawImageInSlot(doc, pageImgs[1], marginMm, topReservedMm + slotHeight + 4, availableWidth, slotHeight, settings.fitting);
+        drawImageInSlot(doc, pageImgs[1], marginMm, topReservedMm + slotHeight + gap, availableWidth, slotHeight, settings.fitting);
       } else {
-        const slotWidth = (availableWidth - 4) / 2;
+        const slotWidth = (availableWidth - gap) / 2;
         drawImageInSlot(doc, pageImgs[0], marginMm, topReservedMm, slotWidth, availableHeight, settings.fitting);
-        drawImageInSlot(doc, pageImgs[1], marginMm + slotWidth + 4, topReservedMm, slotWidth, availableHeight, settings.fitting);
+        drawImageInSlot(doc, pageImgs[1], marginMm + slotWidth + gap, topReservedMm, slotWidth, availableHeight, settings.fitting);
       }
     } else if (pageImgs.length === 3 || pageImgs.length === 4) {
       // 2x2 grid
-      const slotWidth = (availableWidth - 4) / 2;
-      const slotHeight = (availableHeight - 4) / 2;
+      const gap = marginMm === 0 ? 0 : 4;
+      const slotWidth = (availableWidth - gap) / 2;
+      const slotHeight = (availableHeight - gap) / 2;
 
       drawImageInSlot(doc, pageImgs[0], marginMm, topReservedMm, slotWidth, slotHeight, settings.fitting);
-      drawImageInSlot(doc, pageImgs[1], marginMm + slotWidth + 4, topReservedMm, slotWidth, slotHeight, settings.fitting);
+      drawImageInSlot(doc, pageImgs[1], marginMm + slotWidth + gap, topReservedMm, slotWidth, slotHeight, settings.fitting);
       if (pageImgs[2]) {
-        drawImageInSlot(doc, pageImgs[2], marginMm, topReservedMm + slotHeight + 4, slotWidth, slotHeight, settings.fitting);
+        drawImageInSlot(doc, pageImgs[2], marginMm, topReservedMm + slotHeight + gap, slotWidth, slotHeight, settings.fitting);
       }
       if (pageImgs[3]) {
-        drawImageInSlot(doc, pageImgs[3], marginMm + slotWidth + 4, topReservedMm + slotHeight + 4, slotWidth, slotHeight, settings.fitting);
+        drawImageInSlot(doc, pageImgs[3], marginMm + slotWidth + gap, topReservedMm + slotHeight + gap, slotWidth, slotHeight, settings.fitting);
       }
     }
 
@@ -234,7 +243,10 @@ export async function generatePdfFromImages(
       doc.setTextColor(148, 163, 184); // Slate-400
       const footerText = `Page ${pageCount} of ${pagesData.length}`;
       const textWidth = doc.getTextWidth(footerText);
-      doc.text(footerText, (pageWidthMm - textWidth) / 2, pageHeightMm - (marginMm > 4 ? marginMm / 2 : 4));
+      const footerY = marginMm > 0 
+        ? pageHeightMm - (marginMm / 2) + 1 
+        : pageHeightMm - 2.5;
+      doc.text(footerText, (pageWidthMm - textWidth) / 2, footerY);
     }
   }
 

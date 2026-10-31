@@ -19,6 +19,7 @@ import { PdfToWordSection } from './components/PdfToWordSection';
 import { WordToPdfSection } from './components/WordToPdfSection';
 import { MergePdfSection } from './components/MergePdfSection';
 import { CompressPdfSection } from './components/CompressPdfSection';
+import { SasicoDesignPreview } from './components/SasicoDesignPreview';
 import {
   UploadedImage,
   PdfSettings,
@@ -32,6 +33,7 @@ const DEFAULT_SETTINGS: PdfSettings = {
   margin: 'small',
   fitting: 'contain',
   quality: 'standard',
+  qualityPercent: 85,
   imagesPerPage: 1,
   filename: 'ClassPDF_Document',
   backgroundColor: '#FFFFFF',
@@ -39,7 +41,7 @@ const DEFAULT_SETTINGS: PdfSettings = {
 };
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf'>('home');
+  const [currentTab, setCurrentTab] = useState<'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf' | 'design-preview'>('home');
   const [images, setImages] = useState<UploadedImage[]>([]);
   const [settings, setSettings] = useState<PdfSettings>(DEFAULT_SETTINGS);
   const [showAds, setShowAds] = useState<boolean>(() => {
@@ -335,6 +337,23 @@ export default function App() {
     });
   };
 
+  // Check for design preview URL parameter or hash (?preview=sasico or #preview)
+  useEffect(() => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get('preview') === 'sasico' || window.location.hash === '#preview') {
+        setCurrentTab('design-preview');
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  // Isolated Sasico Design Preview - separate showcase route, leaves live website completely untouched
+  if (currentTab === 'design-preview') {
+    return <SasicoDesignPreview onBackToLive={() => setCurrentTab('home')} />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       {/* Top Navbar */}
@@ -354,6 +373,7 @@ export default function App() {
             onGoToConvert={() => setCurrentTab('convert')}
             imagesCount={images.length}
             showAds={showAds}
+            onSelectTab={setCurrentTab}
           />
         )}
 
@@ -713,6 +733,15 @@ export default function App() {
                     className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer"
                   >
                     Contact Us
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCurrentTab('design-preview')}
+                    className="hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors cursor-pointer flex items-center gap-1.5 text-indigo-600 dark:text-cyan-400 font-semibold"
+                  >
+                    <span>Sasico Design Preview</span>
+                    <span className="text-[9px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-1 py-0.2 rounded uppercase tracking-wider font-bold">Concept</span>
                   </button>
                 </li>
               </ul>

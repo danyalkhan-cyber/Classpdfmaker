@@ -1,8 +1,8 @@
 import { ShieldCheck, Sun, Moon, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
-  currentTab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf';
-  onSelectTab: (tab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf') => void;
+  currentTab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf' | 'design-preview';
+  onSelectTab: (tab: 'home' | 'convert' | 'files' | 'about' | 'contact' | 'privacy' | 'terms' | 'pdf-to-word' | 'word-to-pdf' | 'merge-pdf' | 'compress-pdf' | 'design-preview') => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
   imagesCount: number;
@@ -31,9 +31,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-full h-full object-contain rounded-lg"
             />
           </div>
-          <div>
+          <div className="flex items-center gap-2">
             <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-[#F8FAFC] whitespace-nowrap">
-              ClassPDF<span className="text-indigo-600 dark:text-indigo-400 font-semibold">Maker</span>
+              ClassPDF<span className="text-blue-600 dark:text-cyan-400 font-semibold">Maker</span>
+            </span>
+            <span className="hidden sm:inline-block text-[9px] font-mono font-bold tracking-wider uppercase px-1.5 py-0.5 rounded-full bg-blue-50 dark:bg-cyan-950/60 text-blue-700 dark:text-[#22D3EE] border border-blue-200 dark:border-cyan-800/60">
+              SaaS
             </span>
           </div>
         </button>
@@ -150,6 +153,24 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
             <span>100% In-Browser</span>
           </div>
+
+          {/* All Tools Trigger */}
+          <button
+            type="button"
+            onClick={() => {
+              if (currentTab === 'home') {
+                const el = document.getElementById('tools-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                onSelectTab('home');
+              }
+            }}
+            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-blue-700 dark:text-[#22D3EE] bg-blue-50/80 dark:bg-cyan-950/40 border border-blue-200/60 dark:border-cyan-800/50 rounded-lg hover:bg-blue-100 dark:hover:bg-cyan-900/50 transition-colors cursor-pointer"
+            title="Explore all 5 document tools"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />
+            <span>All Tools</span>
+          </button>
 
           {/* Dark Mode Toggle */}
           <button
@@ -271,6 +292,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           Contact
+        </button>
+        <button
+          onClick={() => {
+            if (currentTab === 'home') {
+              const el = document.getElementById('tools-section');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              onSelectTab('home');
+            }
+          }}
+          className="text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap transition-colors flex items-center gap-1 text-blue-600 dark:text-[#22D3EE]"
+        >
+          <Sparkles className="w-3 h-3" />
+          <span>All Tools</span>
         </button>
       </div>
     </header>
